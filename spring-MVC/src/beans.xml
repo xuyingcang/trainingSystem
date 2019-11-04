@@ -33,7 +33,7 @@
         <bean class="org.springframework.orm.hibernate5.HibernateTransactionManager" id="transactionManager"><!-- 要根据hibernate的版本配置 -->
             <property name="sessionFactory" ref="factory"></property>
         </bean>
-        <!-- 配置事务属性 -->
+        <!-- 配置事务属性-->
         <tx:advice id="txAdvice" transaction-manager="transactionManager">
             <tx:attributes>
                 <tx:method name="*"/>
