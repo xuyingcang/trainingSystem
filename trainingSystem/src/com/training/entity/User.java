@@ -64,6 +64,13 @@ public class User
 		this.password = password;
 		this.loginTime = loginTime;
 	}
+	
+	public User(String username, String password)
+	{
+		super();
+		this.username = username;
+		this.password = password;
+	}
 	public User()
 	{
 		super();
