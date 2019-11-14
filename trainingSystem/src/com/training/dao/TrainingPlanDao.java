@@ -5,15 +5,15 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.training.entity.User;
+import com.training.entity.TrainingPlan;
 
 @Repository
-public class UserDao
+public class TrainingPlanDao
 {
 	@Autowired
 	SessionFactory sessionFactory;
-	public void save(User user){
+	public void save(TrainingPlan trainingPlan){
 	        Session session = sessionFactory.openSession();
-	        session.save(user);	        
+	        session.save(trainingPlan);	        
 	    }
 }
