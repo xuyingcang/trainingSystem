@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.training.dao.TrainingPlanDao;
 
-//@RequestMapping("/trainingPlan")
+@RequestMapping("/trainingPlan")
 @Controller
 public class TrainingPlanController
 {
 	@Autowired
 	TrainingPlanDao trainingPlanDao;		
 	
-	@RequestMapping("/trainingPlan/index")
+	@RequestMapping("/index")
 	private String toIndex() {		
 		return "trainingPlan/index";
 	}
