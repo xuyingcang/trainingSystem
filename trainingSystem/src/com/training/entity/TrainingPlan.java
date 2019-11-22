@@ -7,9 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import com.training.util.*;
 
 @Entity
 @Table(name="training_plan")
@@ -21,17 +24,21 @@ public class TrainingPlan
 	@Column(name = "id",  unique = false)
 	private Integer id;//主键
 	
-	@OneToOne
-	@JoinColumn(name = "major")
-	private DicMajor major;//专业
+	//@OneToOne
+	@Column(name = "major")
+	private String major;//专业
 	
+	@JsonDeserialize(using = DateJsonDeserialize.class)// 请求时：将字符串类型的格式转换成时间类型
+	@JsonSerialize(using=DateJsonSerialize.class)// 响应结果：将时间类型的格式化
 	@Column(name = "start_time",  unique = false)
 	private Date startTime;//开始时间
 	
+	@JsonDeserialize(using = DateJsonDeserialize.class)
+	@JsonSerialize(using=DateJsonSerialize.class)
 	@Column(name = "end_time",  unique = false)
 	private Date endTime;//结束时间
 	
-	@Column(name = "trainingcontent",  unique = false)
+	@Column(name = "training_content",  unique = false)
 	private String trainingContent;//训练内容
 	
 	@Column(name = "training_object",  unique = false)
@@ -59,12 +66,12 @@ public class TrainingPlan
 		this.id = id;
 	}
 
-	public DicMajor getMajor()
+	public String getMajor()
 	{
 		return major;
 	}
 
-	public void setMajor(DicMajor major)
+	public void setMajor(String major)
 	{
 		this.major = major;
 	}
@@ -149,12 +156,9 @@ public class TrainingPlan
 		this.principal = principal;
 	}
 
-	public TrainingPlan()
-	{
-		super();
-	}
+	public TrainingPlan(){}
 
-	public TrainingPlan(Integer id, DicMajor major, Date startTime, Date endTime, String trainingContent,
+	public TrainingPlan(Integer id, String major, Date startTime, Date endTime, String trainingContent,
 			String trainingObject, String trainingPlace, float classHour, String classMethod,
 			String principal)
 	{
@@ -170,8 +174,24 @@ public class TrainingPlan
 		this.classMethod = classMethod;
 		this.principal = principal;
 	}
+
 	
 	
-	
-	
+	public TrainingPlan(String trainingContent, String trainingObject)
+	{
+		super();
+		this.trainingContent = trainingContent;
+		this.trainingObject = trainingObject;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "TrainingPlan [id=" + id + ", major=" + major + ", startTime=" + startTime + ", endTime="
+				+ endTime + ", trainingContent=" + trainingContent + ", trainingObject="
+				+ trainingObject + ", trainingPlace=" + trainingPlace + ", classHour=" + classHour
+				+ ", classMethod=" + classMethod + ", principal=" + principal + "]";
+	}
+
+			
 }

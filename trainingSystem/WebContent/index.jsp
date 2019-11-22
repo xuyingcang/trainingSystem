@@ -11,7 +11,7 @@
 	<a>登录</a>
 	<a href="register">注册</a>
 	<br>
-	<a href="trainingPlan/index">训练计划首页</a>
+	<a href="trainingPlan/index.do">训练计划首页</a>
 </body>
 <script type="text/javascript" src="resources/jquery-3.4.1.min.js"></script>
 </html>
