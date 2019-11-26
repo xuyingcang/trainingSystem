@@ -3,7 +3,8 @@ package com.training.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.training.dao.TrainingPlanDao;
 import com.training.entity.TrainingPlan;
 
-@RequestMapping("/trainingPlan")
+
 @Controller
 public class TrainingPlanController
 {
@@ -59,9 +60,9 @@ public class TrainingPlanController
 	
 	@RequestMapping(value="/getPlanList.do",produces={"application/json; charset=UTF-8"})	
 	@ResponseBody
-	private List getPlanByWeek() {
+	private List getPlanByWeek(@RequestParam(value = "startTime")String startTime,@RequestParam(value = "endTime")String endTime) throws ParseException {
 		List<TrainingPlan> list=null;
-		list=(ArrayList<TrainingPlan>) trainingPlanDao.getPlanList("","");
+		list=(ArrayList<TrainingPlan>) trainingPlanDao.getPlanList(startTime,endTime);
 		return list;
 		
 	}

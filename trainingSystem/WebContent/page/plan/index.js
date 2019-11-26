@@ -1,62 +1,41 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-    String path = request.getContextPath();
-	String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>训练计划</title>
-</head>
-<link type="text/css" href="../resources/bootstrap-edit/bootstrap-editable.css"	rel="stylesheet">
-<link type="text/css" href="../resources/bootstrap-table/bootstrap.all.min.css"	rel="stylesheet">
-<link type="text/css" href="../resources/bootstrap-table/bootstrap-table.css"	rel="stylesheet">
-<body>
-	<button onclick="addPlan()">新增计划</button>
-	<button onclick="queryPlan()">查询计划</button>
-
-	<br>周军事训练计划：
-	<br>
-	<table id="ArbetTable"></table>
-	<div id="result"></div>
-</body>
-
-<script type="text/javascript" src="../resources/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="../resources/bootstrap-table/bootstrap-table.js"></script>
-<script type="text/javascript" src="../resources/bootstrap-table/bootstrap-table-zh-CN.js"></script>
-<script type="text/javascript" src="../resources/xlsx.full.min.js"></script>
-<script type="text/javascript" src="../resources/bootstrap-edit/bootstrap-editable.min.js"></script>
-<script type="text/javascript" src="../resources/bootstrap-edit/bootstrap-table-editable.min.js"></script>
-<script type="text/javascript" src="../resources/layer/layer.js"></script>
-
-<script type="text/javascript">
 
 	var json;
 	const fields = [ 'startTime', 'endTime' , 'major' , 'trainingObject', 'trainingContent', 'trainingPlace', 'classMethod', 'classHour', 'principal' ];
 	$(function() {
-		//1.初始化Table
-		var oTable = new TableInit();
-		oTable.Init();
+		
+		var laydate = layui.laydate;
+		  
+		  //1.初始化laydate
+		  laydate.render({
+		    elem: '#start' ,
+		    value: '2019-11-25' ,
+		  	type:'date'
+		  });
+		  laydate.render({
+			    elem: '#end' ,
+			    value: '2019-11-30' ,
+			    type:'date'
+			  });
+		//2.初始化Table
+			var oTable = new TableInit();
+			oTable.Init();
 	});
 	
 	//导入文件按钮的点击事件
 	function addPlan() {
 		layer.open({
 			  type: 2,
-			  area: ['1000px', '600px'],
+			  area: ['800px', '400px'],
 			  fixed: false, //不固定
 			  maxmin: true,
-			  content: '../page/trainingPlan/addPlan.jsp'
+			  content: 'addPlan.jsp'
 			});
 	}
 	/*
 	*上传按钮的点击事件
 	*/	
-	function uploadPlan(){
-		doAjax(json);
+	function queryPlan(){
+		$('#ArbetTable').bootstrapTable('refresh');
 	}
 	
 	/*
@@ -67,7 +46,7 @@
 		//初始化Table
 		oTableInit.Init = function() {
 			$('#ArbetTable').bootstrapTable({
-				url : 'getPlanList.do', //请求后台的URL（*）
+				url : '../../getPlanList.do', //请求后台的URL（*）
 				method : 'get', //请求方式（*）
 				toolbar : '#toolbar', //工具按钮用哪个容器
 				striped : true, //是否显示行间隔色
@@ -139,8 +118,8 @@
 		//得到查询的参数
 		oTableInit.queryParams = function(params) {
 			var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-					startTime : "2019-11-15", 
-					endTime : "2019-11-19"
+					startTime :$("#start").val(), 
+					endTime : $("#end").val()
 			};
 			return temp;
 		};
@@ -282,15 +261,15 @@
 
 	//导出Excel按钮点击事件
 	function exportFile() {
-		var tableDom = document.getElementById('table');
+		var tableDom = document.getElementById('ArbetTable');
 		var sheet = XLSX.utils.table_to_sheet(tableDom);
 		var blob = sheet2blob(sheet);
-		openDownloadDialog(blob, '导出table.xlsx');
+		openDownloadDialog(blob, '周军事训练计划.xlsx');
 	}
 	
 	function doAjax(json) {
         $.ajax({
-            url: "savePlanList.do",
+            url: "../../savePlanList.do",
             type: "post",
             dataType: "json",
           	contentType: 'application/json;charset=utf-8',
@@ -298,8 +277,3 @@
             data: JSON.stringify(json),
         });
     }
-		
-</script>
-
-
-</html>

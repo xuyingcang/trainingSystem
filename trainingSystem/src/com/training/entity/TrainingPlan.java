@@ -1,6 +1,8 @@
 package com.training.entity;
 
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,12 +33,12 @@ public class TrainingPlan
 	@JsonDeserialize(using = DateJsonDeserialize.class)// 请求时：将字符串类型的格式转换成时间类型
 	@JsonSerialize(using=DateJsonSerialize.class)// 响应结果：将时间类型的格式化
 	@Column(name = "start_time",  unique = false)
-	private Date startTime;//开始时间
+	private Timestamp startTime;//开始时间
 	
 	@JsonDeserialize(using = DateJsonDeserialize.class)
 	@JsonSerialize(using=DateJsonSerialize.class)
 	@Column(name = "end_time",  unique = false)
-	private Date endTime;//结束时间
+	private Timestamp endTime;//结束时间
 	
 	@Column(name = "training_content",  unique = false)
 	private String trainingContent;//训练内容
@@ -76,22 +78,22 @@ public class TrainingPlan
 		this.major = major;
 	}
 
-	public Date getStartTime()
+	public Timestamp getStartTime()
 	{
 		return startTime;
 	}
 
-	public void setStartTime(Date startTime)
+	public void setStartTime(Timestamp startTime)
 	{
 		this.startTime = startTime;
 	}
 
-	public Date getEndTime()
+	public Timestamp getEndTime()
 	{
 		return endTime;
 	}
 
-	public void setEndTime(Date endTime)
+	public void setEndTime(Timestamp endTime)
 	{
 		this.endTime = endTime;
 	}
@@ -158,7 +160,7 @@ public class TrainingPlan
 
 	public TrainingPlan(){}
 
-	public TrainingPlan(Integer id, String major, Date startTime, Date endTime, String trainingContent,
+	public TrainingPlan(Integer id, String major, Timestamp startTime, Timestamp endTime, String trainingContent,
 			String trainingObject, String trainingPlace, float classHour, String classMethod,
 			String principal)
 	{
