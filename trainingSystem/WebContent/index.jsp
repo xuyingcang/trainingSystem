@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link type="text/css" href="resources/layui/css/layui.css"	rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <title>layuiAdmin</title>
+    <title>军事训练管理系统</title>
 </head>
 <body>
 <!--上方标题栏-->
@@ -122,7 +122,7 @@
             menuArray.forEach(function (item) {
                 if(item.pid==id){
                     $('.leftMenu ul')
-                        .append('<li menu-id="'+item.id+'" class="layui-nav-item"><a href="'+item.url+'">'+item.name+'</a></li>')
+                        .append('<li menu-id="'+item.id+'" class="layui-nav-item layui-nav-itemed"><a href="'+item.url+'">'+item.name+'</a></li>')
                     findChildMenus(item.id);
                 }
             });

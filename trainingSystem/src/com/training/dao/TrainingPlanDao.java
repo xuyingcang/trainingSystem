@@ -26,8 +26,7 @@ public class TrainingPlanDao
 {
 	@Autowired
 	SessionFactory sessionFactory;
-	
-		
+
 	/**
 	 * 保存计划
 	 * 
@@ -36,33 +35,36 @@ public class TrainingPlanDao
 	public void save(TrainingPlan trainingPlan)
 	{
 		Session session = sessionFactory.openSession();
-	        session.saveOrUpdate(trainingPlan);
-	        session.close();
+		session.saveOrUpdate(trainingPlan);
+		session.close();
 	}
-	
-	
-	public List getPlanList(String startTime,String endTime) throws ParseException
+
+	public List getPlanList(String startTime, String endTime) throws ParseException
 	{
-		Timestamp start,end;
+		Timestamp start, end;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		if(startTime==null||"".equals(startTime)) {
-			start=new Timestamp(System.currentTimeMillis());
-		}else {
-			start=new Timestamp(sdf.parse(startTime).getTime());
+		if (startTime == null || "".equals(startTime))
+		{
+			start = new Timestamp(System.currentTimeMillis());
+		} else
+		{
+			start = new Timestamp(sdf.parse(startTime).getTime());
 		}
-		if(endTime==null||"".equals(endTime)) {
-			end=new Timestamp(System.currentTimeMillis());
-		}else {
-			end=new Timestamp(sdf.parse(endTime).getTime());
+		if (endTime == null || "".equals(endTime))
+		{
+			end = new Timestamp(System.currentTimeMillis());
+		} else
+		{
+			end = new Timestamp(sdf.parse(endTime).getTime());
 		}
-		String hql="from TrainingPlan where  startTime >= :start and startTime <= :end  ";
+		String hql = "from TrainingPlan where  startTime >= :start and startTime <= :end  ";
 		Session session = sessionFactory.openSession();
 		Query query = session.createQuery(hql);
-		query.setParameter("start",start );
-		query.setParameter("end",end);
-	        List<TrainingPlan> list = query.list();
-	        session.close();
+		query.setParameter("start", start);
+		query.setParameter("end", end);
+		List<TrainingPlan> list = query.list();
+		session.close();
 		return list;
 	}
-	
+
 }

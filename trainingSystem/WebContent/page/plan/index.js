@@ -21,21 +21,35 @@
 			oTable.Init();
 	});
 	
-	//导入文件按钮的点击事件
+	/*
+	 * “导入计划”按钮的点击事件
+	 * 弹出layer
+	 */
 	function addPlan() {
 		layer.open({
 			  type: 2,
 			  area: ['800px', '400px'],
 			  fixed: false, //不固定
 			  maxmin: true,
+			  title:'新增计划',
 			  content: 'addPlan.jsp'
 			});
 	}
 	/*
-	*上传按钮的点击事件
+	 * “导出文件”按钮点击事件
+	 */
+	function exportFile() {
+		var tableDom = document.getElementById('table');
+		var sheet = XLSX.utils.table_to_sheet(tableDom);
+		var blob = sheet2blob(sheet);
+		openDownloadDialog(blob, '周军事训练计划.xlsx');
+	}
+	
+	/*
+	*“查询计划”按钮的点击事件
 	*/	
 	function queryPlan(){
-		$('#ArbetTable').bootstrapTable('refresh');
+		$('#table').bootstrapTable('refresh');
 	}
 	
 	/*
@@ -45,10 +59,11 @@
 		var oTableInit = new Object();
 		//初始化Table
 		oTableInit.Init = function() {
-			$('#ArbetTable').bootstrapTable({
+			$('#table').bootstrapTable({
 				url : '../../getPlanList.do', //请求后台的URL（*）
 				method : 'get', //请求方式（*）
 				toolbar : '#toolbar', //工具按钮用哪个容器
+				toolbarAlign:'right',//工具栏的位置
 				striped : true, //是否显示行间隔色
 				cache : false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 				pagination : true, //是否显示分页（*）
@@ -59,17 +74,18 @@
 				pageNumber : 1, //初始化加载第一页，默认第一页
 				pageSize : 10, //每页的记录行数（*）
 				pageList : [ 10, 25, 50, 100 ], //可供选择的每页的行数（*）
-				search : false, //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+				search : true, //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
 				contentType : "application/x-www-form-urlencoded",
-				strictSearch : false,
+				strictSearch : true,
 				showColumns : true, //是否显示所有的列
 				showRefresh : false, //是否显示刷新按钮
 				minimumCountColumns : 2, //最少允许的列数
 				clickToSelect : false, //是否启用点击选中行
-				height : 700, //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+				//height : 700, //table的高度，如果没有设置height属性，表格自动根据记录条数觉得表格高度
 				uniqueId : "no", //每一行的唯一标识，一般为主键列
 				showToggle : false, //是否显示详细视图和列表视图的切换按钮
 				cardView : false, //是否显示详细视图
+				showExport: false,//是否显示导出按钮
 				detailView : false, //是否显示父子表
 				columns : [ {
 					field : 'major',
@@ -172,35 +188,14 @@
 	function readWorkbook(workbook) {
 		var sheetNames = workbook.SheetNames; // 工作表名称集合
 		var worksheet = workbook.Sheets[sheetNames[0]]; // 这里我们只读取第一张sheet
-		//var csv= XLSX.utils.sheet_to_csv(worksheet);
 		//将sheet转换为json，并且将表头中文替换问英文
 		json = XLSX.utils.sheet_to_json(worksheet,{ 
             header: fields
         });
 		json.splice(0,1);//删除第一行数据		
-		$("#ArbetTable").bootstrapTable('load',json);//将json数据传入bootstrapTable显示
-		//document.getElementById('result').innerHTML = csv2table(csv);
+		$("#table").bootstrapTable('load',json);//将json数据传入bootstrapTable显示
 	}
 	
-	// csv转sheet对象
-	function csv2sheet(csv) {
-		var sheet = {}; // 将要生成的sheet
-		csv = csv.split('\n');
-		csv.forEach(function(row, i) {
-			row = row.split(',');
-			if (i == 0)
-				sheet['!ref'] = 'A1:'
-						+ String.fromCharCode(65 + row.length - 1)
-						+ (csv.length - 1);
-			row.forEach(function(col, j) {
-				sheet[String.fromCharCode(65 + j) + (i + 1)] = {
-					v : col
-				};
-			});
-		});
-		return sheet;
-	}
-
 	// 将一个sheet转成最终的excel文件的blob对象，然后利用URL.createObjectURL下载
 	function sheet2blob(sheet, sheetName) {
 		sheetName = sheetName || 'sheet1';
@@ -252,21 +247,7 @@
 		}
 		aLink.dispatchEvent(event);
 	}
-
-	function exportExcel(csv) {
-		var sheet = csv2sheet(csv);
-		var blob = sheet2blob(sheet);
-		openDownloadDialog(blob, '导出.xlsx');
-	}
-
-	//导出Excel按钮点击事件
-	function exportFile() {
-		var tableDom = document.getElementById('ArbetTable');
-		var sheet = XLSX.utils.table_to_sheet(tableDom);
-		var blob = sheet2blob(sheet);
-		openDownloadDialog(blob, '周军事训练计划.xlsx');
-	}
-	
+		
 	function doAjax(json) {
         $.ajax({
             url: "../../savePlanList.do",
