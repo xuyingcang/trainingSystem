@@ -73,5 +73,15 @@ public class User {
         this.logintime = logintime;
     }
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", usertype='" + usertype + '\'' +
+                ", logintime='" + logintime + '\'' +
+                '}';
+    }
 }

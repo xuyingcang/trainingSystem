@@ -29,11 +29,13 @@ public class RegisterController {
 
         try {
             //封装数据
+            response.setContentType("text/html;charset=UTF-8");
             BeanUtils.populate(user, parameterMap);
+            System.out.println(user);
             if (usernameIsRepeat(user.getUsername())){
                 //调用dao保存数据
                 userDao.save(user);
-                response.setContentType("text/html;charset=UTF-8");
+
                 response.getWriter().write("注册成功，三秒后跳转到登录页面...");
                 response.setHeader("reFresh", "3;URL=./login.jsp");
             }else {
