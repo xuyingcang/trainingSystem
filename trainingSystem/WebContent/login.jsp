@@ -6,9 +6,19 @@
     <meta charset="UTF-8">
     <title>登录</title>
     <link rel="stylesheet" href="./css/login.css">
+    <script type="text/javascript">
+        function login(e) {
+            //回车登录
+            var keyNum = null;
+            keyNum = window.event?e.keyCode:e.which;
+            if (keyNum == 13){
+                document.getElementById("formID").submit();
+            }
+        }
+    </script>
 
 </head>
-<body>
+<body onkeydown="login(event)">
 <div class="login">
     <div class="login_title">
         <p><img src="./resources/layui/images/login/junhui.png" style="width:80px;height:80px;margin-right:30px;"/>军事训练管理系统</p>

@@ -26,7 +26,8 @@ public class LoginController {
                 //登陆成功，把user对象储存到httpsession
                 request.getSession().setAttribute("user",user);
                 //跳转到首页
-                request.getRequestDispatcher("/index.jsp").forward(request, response);
+               // request.getRequestDispatcher("/index.jsp").forward(request, response);
+               response.sendRedirect("./index.jsp");
                 return;
             } else {
                 request.setAttribute("err", "您输入的用户名或密码错误</br>");
