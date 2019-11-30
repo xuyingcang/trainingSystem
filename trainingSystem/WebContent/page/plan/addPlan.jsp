@@ -9,6 +9,7 @@
 </head>
 <link type="text/css" href="../../resources/bootstrap-edit/bootstrap-editable.css"	rel="stylesheet">
 <link type="text/css" href="../../resources/bootstrap/css/bootstrap.all.min.css"        rel="stylesheet">
+<link type="text/css" href="../../resources/bootstrap-edit/bootstrap-datetimepicker.min.css"      rel="stylesheet">
 <link type="text/css" href="../../resources/layui/css/layui.css"	rel="stylesheet">
 <body>
 	<label>
@@ -26,6 +27,9 @@
 <script type="text/javascript" src="../../resources/xlsx.full.min.js"></script>
 <script type="text/javascript" src="../../resources/bootstrap-edit/bootstrap-editable.min.js"></script>
 <script type="text/javascript" src="../../resources/bootstrap-edit/bootstrap-table-editable.min.js"></script>
+<script type="text/javascript" src="../../resources/bootstrap-edit/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="../../resources/bootstrap-edit/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="../../resources/bootstrap-edit/bootstrap-select.js"></script>
 <script type="text/javascript" src="../../resources/layui/layui.all.js"></script>
 
 <script type="text/javascript" src="addPlan.js"></script>

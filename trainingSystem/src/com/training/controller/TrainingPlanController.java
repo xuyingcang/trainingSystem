@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.training.dao.CompletionDao;
 import com.training.dao.TrainingPlanDao;
 import com.training.entity.TrainingPlan;
 
@@ -24,10 +25,10 @@ import com.training.entity.TrainingPlan;
 public class TrainingPlanController
 {
 	@Autowired
-	TrainingPlanDao trainingPlanDao;		
+	TrainingPlanDao trainingPlanDao;
 	
-	public static final String SUCCESS="success";
-	public static final String FAIL="fail";
+	public static final int SUCCESS=200;
+	public static final int FAIL=400;
 	
 	@RequestMapping("/index.do")
 	private String toIndex() {		
@@ -41,18 +42,20 @@ public class TrainingPlanController
 	 */
 	@RequestMapping(value="/savePlanList.do")	
 	private void savePlanList(@RequestBody List<TrainingPlan> list,HttpServletResponse response) {
+		PrintWriter writer=null;
 		try
 		{
-			PrintWriter writer=response.getWriter();
+			writer=response.getWriter();
 			for (TrainingPlan trainingPlan : list)
 			{
 				trainingPlanDao.save(trainingPlan);
 			} 
-			writer.print("good");
+			writer.print(SUCCESS);
 			writer.flush();
-		} catch (IOException e)
+			writer.close();
+		} catch (Exception e)
 		{
-			// TODO Auto-generated catch block
+			writer.print(FAIL);
 			e.printStackTrace();
 		}
 		
@@ -66,4 +69,5 @@ public class TrainingPlanController
 		return list;
 		
 	}
+	
 }

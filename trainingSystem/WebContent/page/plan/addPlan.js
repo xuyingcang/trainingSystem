@@ -1,4 +1,8 @@
 var json;
+var monday;//当周周一
+var sunday;//当周周日
+var yzks;//一周开始时间
+var yzjs;//一周结束时间
 const fields = [ 'startTime', 'endTime', 'major', 'trainingObject',
 		'trainingContent', 'trainingPlace', 'classMethod', 'classHour',
 		'principal' ];
@@ -10,7 +14,7 @@ function getLocalFile() {
 	// 1.初始化Table
 	var oTable = new TableInit();
 	oTable.Init();
-
+	getThisWeekDate();
 	var docObj = document.getElementById("docfile");
 	if (docObj.files && docObj.files[0]) {
 		readWorkbookFromLocalFile(docObj.files[0])
@@ -22,6 +26,34 @@ function getLocalFile() {
  */
 function uploadPlan() {
 	doAjax(json);
+}
+
+var strValidDisplay = function(value){
+	if(value.length > 200){
+			var makeup = value + '<i class="fa fa-warning" id="ccsj-fa-warning" title="长度不能超过200"></i>';			 				
+			$(this).html(makeup);			
+		}
+		else{
+			$(this).html(value);
+			
+		}
+}
+
+var timeValidDisplay = function(value){
+	var nullStr = '<i class="fa fa-warning" id="ccsj-fa-warning" title="时间为空或时间格式不正确"></i>';
+	   if (value == null){
+		   $(this).html(nullStr);		 
+	   }
+	   else{		   
+		   var valueStr = standardDateFormat(value);		   
+		   var makeupRangeOne = valueStr + '<i class="fa fa-warning" id="ccsj-fa-warning" title="时间段不正确"></i>';		   
+		   if(valueStr<yzks || valueStr>yzjs){
+			   $(this).html(makeupRangeOne);	                			  
+		   }			  
+		   else{
+			   $(this).html(valueStr);			 
+		   }			   					        			 			
+		} 
 }
 
 /*
@@ -59,31 +91,121 @@ var TableInit = function() {
 			detailView : false, // 是否显示父子表
 			columns : [ {
 				field : 'major',
-				title : '专业'
+				align:"center",
+				title : '专业',
+				editable: {
+                    type: 'select',
+                    title: '专业',
+                    mode:'inline',
+                    emptytext:'点击选择',
+                    display:strValidDisplay,
+                    source: [{ value: 'CDMA', text: 'CDMA' },
+                        { value: '网络', text: '网络' },
+                        { value: '传输', text: '传输' }],
+                }
 			}, {
 				field : 'startTime',
-				title : '开始时间'
+				align:"center",
+				title : '开始时间',
+				editable: {
+                    type: 'datetime',
+                    title: '开始时间',
+                    placement:'bottom',	                   
+                    datetimepicker: {
+                        language:'zh-CN',
+                        minuteStep:1,
+                        todayHighlight:true,
+                        startDate:yzks,
+                        endDate:yzjs
+                   },
+                   display:timeValidDisplay	                   	                   
+                }
 			}, {
 				field : 'endTime',
-				title : '结束时间'
+				align:"center",
+				title : '结束时间',
+				editable: {
+                    type: 'datetime',
+                    title: '结束时间',
+                    placement:'bottom',	                   
+                    datetimepicker: {
+                        language:'zh-CN',
+                        minuteStep:1,
+                        todayHighlight:true,
+                        startDate:yzks,
+                        endDate:yzjs
+                   },
+                   display:timeValidDisplay	                   	                   
+                }
 			}, {
 				field : 'trainingObject',
-				title : '训练对象'
+				align:"center",
+				title : '训练对象',
+				editable: {
+                    type: 'select',
+                    title: '训练对象',
+                    mode:'inline',
+                    emptytext:'点击填写',
+                    display:strValidDisplay,
+                    source: [{ value: 'CDMA', text: '全体人员' },
+                        { value: '干部', text: '干部' },
+                        { value: '战士', text: '战士' }],
+                }
 			}, {
 				field : 'trainingContent',
-				title : '训练内容'
+				align:"center",
+				title : '训练内容',
+				editable: {
+                    type: 'text',
+                    title: '训练内容',
+                    mode:'inline',
+                    emptytext:'点击填写',
+                    display:strValidDisplay
+                }
 			}, {
 				field : 'trainingPlace',
-				title : '训练场地'
+				align:"center",
+				title : '训练场地',
+				editable: {
+                    type: 'text',
+                    title: '训练场地',
+                    mode:'inline',
+                    emptytext:'点击填写',
+                    display:strValidDisplay
+                }
 			}, {
 				field : 'classHour',
-				title : '课时'
+				align:"center",
+				title : '课时',
+				editable: {
+                    type: 'text',
+                    title: '课时',
+                    mode:'inline',
+                    emptytext:'点击填写',
+                    display:strValidDisplay
+                }
 			}, {
 				field : 'classMethod',
-				title : '训练方法'
+				align:"center",
+				title : '训练方法',
+				editable: {
+                    type: 'text',
+                    title: '训练方法',
+                    mode:'inline',
+                    emptytext:'点击填写',
+                    display:strValidDisplay
+                }
 			}, {
 				field : 'principal',
-				title : '负责人'
+				align:"center",
+				title : '负责人',
+				editable: {
+                    type: 'text',
+                    title: '负责人',
+                    mode:'inline',
+                    emptytext:'点击填写',
+                    display:strValidDisplay
+                }
 			}, ],
 			rowStyle : function(row, index) {
 				var classesArr = [ 'success', 'info' ];
@@ -104,12 +226,14 @@ var TableInit = function() {
 	return oTableInit;
 };
 // 赋予的参数
-/*
- * function operateFormatter(value, row, index) { return [ '<a class="btn
- * active disabled" href="#">编辑</a>', '<a class="btn active" href="#">档案</a>', '<a
- * class="btn btn-default" href="#">记录</a>', '<a class="btn active"
- * href="#">准入</a>' ].join(''); }
- */
+
+function operateFormatter(value, row, index) { 
+	return [ '<a class="btn	active disabled" href="#">编辑</a>', 
+	'<a class="btn active" href="#">档案</a>',
+	'<a	class="btn btn-default" href="#">记录</a>',
+	'<a class="btn active"	href="#">准入</a>' ].join(''); 
+}
+
 
 // 打开下载对话框
 function openDownloadDialog(url, saveName) {
@@ -146,7 +270,7 @@ function readWorkbookFromLocalFile(file, callback) {
 	reader.readAsBinaryString(file);
 }
 
-// 将读取workbook的内容转换为csv格式
+// 将读取workbook的内容,通过bootstraptable进行显示
 function readWorkbook(workbook) {
 	var sheetNames = workbook.SheetNames; // 工作表名称集合
 	var worksheet = workbook.Sheets[sheetNames[0]]; // 这里我们只读取第一张sheet
@@ -256,5 +380,85 @@ function doAjax(json) {
 		contentType : 'application/json;charset=utf-8',
 		async : true,
 		data : JSON.stringify(json),
+		success:function(data){
+			var layer = layui.layer;
+			if(data==200){
+				layer.msg('添加成功！');
+				$('#table').bootstrapTable('destroy');//重置bootstraptable
+			}else{
+				layer.msg('添加失败！');
+			}
+		},
 	});
+}
+
+
+/**************************************日期处理****************************************/
+
+function getThisWeekDate(){
+	var now = new Date();
+	var week = new Array();
+	var currentWeek = now.getDay();
+	if(currentWeek == 0){
+		currentWeek = 7;
+	}
+	monday = new Date(now.getTime() - (currentWeek -1)*24*60*60*1000);
+	sunday = new Date(now.getTime() + (7 - currentWeek)*24*60*60*1000);
+	monday = standardDateTransform(monday);
+	sunday = standardDateTransform(sunday);
+	yzks = monday + " 00:00";
+	yzjs = sunday+ " 23:59";
+	}
+function standardDateTransform(date){
+	var yearStr = date.getFullYear();
+	var monthStr = date.getMonth() + 1;
+	var dateStr = date.getDate();
+	return yearStr + "-" + addZero(monthStr) + "-" + addZero(dateStr);
+}
+function standardDateFormat(date){
+	var yearStr = date.getFullYear();
+	var monthStr = date.getMonth() + 1;
+	var dateStr = date.getDate();
+	var hour = date.getHours();
+	var minute = date.getMinutes();
+	return yearStr + "-" + addZero(monthStr) + "-" + addZero(dateStr) + " " + addZero(hour) + ":" + addZero(minute);
+}
+function addZero(str){
+	if(str<10)
+		return "0"+str;
+	else
+		return str;
+}
+function dateFormat(time,option){
+	var monthstr = time.getMonth() + 1;
+	monthstr = addZero(monthstr);
+	var datestr = time.getDate();
+	datestr = addZero(datestr);
+	if(option == ""){
+		var hourstr = time.getHours();
+		hourstr = addZero(hourstr);
+		var minstr = time.getMinutes();
+		minstr = addZero(minstr);
+	}else{
+		switch(option){
+		case "上午":
+			var hourstr = "08";
+			var minstr = "00";
+			break;
+		case "下午":
+			var hourstr = "14";
+			var minstr = "30";
+			break;
+		case "晚上":
+			var hourstr = "19";
+			var minstr = "40";
+			break;
+		case "全天":
+			var hourstr = "00";
+			var minstr = "01";
+			break;
+		}
+	}
+	var timestr = (time.getYear() + 1900 + "-" + monthstr + "-" + datestr + " " + hourstr + ":" + minstr).toString(); 
+	return timestr;
 }

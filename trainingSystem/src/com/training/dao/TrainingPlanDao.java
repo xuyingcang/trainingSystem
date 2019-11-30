@@ -57,7 +57,7 @@ public class TrainingPlanDao
 		{
 			end = new Timestamp(sdf.parse(endTime).getTime());
 		}
-		String hql = "from TrainingPlan where  startTime >= :start and startTime <= :end  ";
+		String hql = "from TrainingPlan where  startTime >= :start and startTime <= :end  order by startTime asc";
 		Session session = sessionFactory.openSession();
 		Query query = session.createQuery(hql);
 		query.setParameter("start", start);
