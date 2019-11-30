@@ -1,5 +1,6 @@
+<%@ page import="com.training.entity.User" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +18,14 @@
     <div class="loginNameDiv">
         <img class="loginIcon" src="image/icon.png">
         <div class="loginUserInfo">
-            <span>abc</span><br>
+            <span>
+                <%
+
+                   User user = (User) request.getSession().getAttribute("user");
+
+                    out.print(user.getName());
+                %>
+            </span><br>
             <span>备份站</span>
         </div>
     </div>
