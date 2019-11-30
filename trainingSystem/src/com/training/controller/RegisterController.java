@@ -2,7 +2,6 @@ package com.training.controller;
 
 import com.training.dao.UserDao;
 import com.training.entity.User;
-import javafx.scene.control.Alert;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
