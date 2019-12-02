@@ -17,16 +17,31 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
+import com.training.entity.Person;
 import com.training.entity.TrainingPlan;
 
 import javassist.expr.NewArray;
 
 @Repository
-public class CompletionDao
+public class PersonDao
 {
 	@Autowired
 	SessionFactory sessionFactory;
 	
-	
+	/**
+	 * 根据训练人员类别获取人员列表
+	 * @param type
+	 * @return
+	 * @throws ParseException
+	 */
+	public List getPersonList(String type) throws ParseException
+	{
+		String hql = "from Person order by name asc";
+		Session session = sessionFactory.openSession();
+		Query query = session.createQuery(hql);
+		List<Person> list = query.list();
+		session.close();
+		return list;
+	}
 
 }

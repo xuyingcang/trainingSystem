@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.training.dao.CompletionDao;
+import com.training.dao.PersonDao;
 import com.training.dao.TrainingPlanDao;
 import com.training.entity.TrainingPlan;
 
@@ -70,11 +70,12 @@ public class TrainingPlanController
 	}
 	
 	@RequestMapping(value="/updatePlan.do")	
-	private void updatePlan(@RequestBody TrainingPlan plan,HttpServletResponse response) {
+	private void updatePlan(TrainingPlan plan,HttpServletResponse response) {
 		PrintWriter writer=null;
 		try
 		{
-			trainingPlanDao.save(plan);
+			writer=response.getWriter();
+			trainingPlanDao.update(plan);
 			writer.print(SUCCESS);
 			writer.flush();
 			writer.close();

@@ -163,7 +163,15 @@ window.operateEvents = {
  * 点击某项训练计划填报训练情况登记
  */
 function edit(row){
-	console.log(row);
+	var p_type = [
+	    {id: 1, text:'全体人员'},
+	    {id: 2, text:'干部'},
+	    {id: 3, text:'战士'}
+	]
+	//初始化select2
+	initSelector("trainingObject",p_type);
+	//loadSelector("persons","../../getPersonList.do");
+	loadData(row);
 	layer.open({
 		type : 1,
 		area : [ '1000px', '500px' ],
@@ -175,7 +183,44 @@ function edit(row){
 
 }
 
-/**************************************日期处理****************************************/
+/*
+ * 加载对象
+ */
+function loadData(obj) {
+	for (var item in obj){
+		$("#"+item).val(obj[item]);//设置属性
+		//$("#"+item).attr("name",item);//设置name
+	}
+}
+
+/*
+ * 获取本地数据初始化select2
+ */
+function initSelector(id, data) {
+	$('#' + id).select2({
+		data:data,
+	});
+}
+
+/*
+ * 获取远程数据初始化select2
+ */
+function loadSelector(id,url) {
+	$.ajax({
+		url : "../../getPersonList.do",
+		type : "post",
+		dataType : "json",
+		contentType : 'application/json;charset=utf-8',
+		async : true,
+		success:function(data){
+			initSelector(id,data);
+		},
+	});
+}
+
+
+
+/** ************************************日期处理*************************************** */
 
 function getThisWeekDate(){
 	var now = new Date();
