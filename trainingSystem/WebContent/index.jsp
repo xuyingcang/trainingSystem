@@ -194,7 +194,7 @@
                 name: "军事体育",
                 id: 8,
                 pid: 2,
-                url:''
+                url:'#/training_result/index.jsp'
             }, {
                 name: "理论考核",
                 id: 9,
@@ -212,7 +212,12 @@
                 id: 11,
                 pid: 3,
                 url:''
-            }, 
+            }, {
+                name: "人员信息",
+                id: 12,
+                pid: 4,
+                url:'#/personal_information/index.jsp'
+            },
         ];
         formatMenus();
         initRouter();
