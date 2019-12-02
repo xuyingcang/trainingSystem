@@ -44,4 +44,13 @@ public class PersonDao
 		return list;
 	}
 
+	/**
+	 * 保存人员
+	 */
+	public void save(Person person) {
+        Session session = sessionFactory.openSession();
+        session.save(person);
+        session.close();
+    }
+
 }

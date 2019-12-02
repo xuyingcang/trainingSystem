@@ -19,28 +19,28 @@ public class RegisterController {
     UserDao userDao;
 
     @RequestMapping(value = "/register.do")
-    public void toRegister(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void toRegister(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        //拿到表单内所有数据
         Map<String, String[]> parameterMap = request.getParameterMap();
         //创建user对象
         User user = new User();
-
-        try {
-            //封装数据
-            response.setContentType("text/html;charset=UTF-8");
-            BeanUtils.populate(user, parameterMap);
-                //调用dao保存数据
-                userDao.save(user);
-
-                response.getWriter().write("注册成功，三秒后跳转到登录页面...");
-                response.setHeader("reFresh", "3;URL=./login.jsp");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        //设置编码
+        response.setContentType("text/html;charset=UTF-8");
+        //封装数据
+        BeanUtils.populate(user, parameterMap);
+        //调用dao保存数据
+        userDao.save(user);
+        response.getWriter().write("注册成功，三秒后跳转到登录页面...");
+        response.setHeader("reFresh", "3;URL=./login.jsp");
     }
 
+    @RequestMapping(value = "/vaild.do")
+    public void vaildUsername(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String username = request.getParameter("username");
+        User user = userDao.selectUser(username);
+        if (user != null) {
+            response.getWriter().write("no");
+        }
+    }
 
 }
