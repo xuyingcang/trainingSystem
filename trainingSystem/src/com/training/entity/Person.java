@@ -1,6 +1,6 @@
 package com.training.entity;
 
-import sun.dc.pr.PRError;
+import java.sql.Date;
 
 import javax.persistence.*;
 
@@ -13,14 +13,14 @@ public class Person {
     @Column(name = "id",unique = false)
     private Integer id;//主键
 
-    @Column(name = "naem")
+    @Column(name = "name")
     private String name;//姓名
 
     @Column(name = "sex")
     private String sex;//性别
 
     @Column(name = "birthday")
-    private String birthday;//出生日期
+    private Date birthday;//出生日期
 
     @Column(name = "height")
     private double height;//身高
@@ -66,16 +66,18 @@ public class Person {
     public void setSex(String sex) {
         this.sex = sex;
     }
+   
+    public Date getBirthday()
+{
+	return birthday;
+}
 
-    public String getBirthday() {
-        return birthday;
-    }
+public void setBirthday(Date birthday)
+{
+	this.birthday = birthday;
+}
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public double getHeight() {
+public double getHeight() {
         return height;
     }
 
