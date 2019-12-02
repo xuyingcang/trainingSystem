@@ -1,8 +1,4 @@
 var json;
-const fields = [ 'startTime', 'endTime', 'major', 'trainingObject',
-		'trainingContent', 'trainingPlace', 'classMethod', 'classHour',
-		'principal' ];
-
 var monday;//当周周一
 var sunday;//当周周日
 var yzks;//一周开始时间
@@ -10,38 +6,18 @@ var yzjs;//一周结束时间
 
 $(function() {
 	getThisWeekDate();
-	var laydate = layui.laydate;
+	var layer = layui.layer;
 
-	//1.初始化laydate
-	laydate.render({
-		elem : '#start',
-		value : monday,
-		type : 'date'
-	});
-	laydate.render({
-		elem : '#end',
-		value : sunday,
-		type : 'date'
-	});
-	//2.初始化Table
+	//1.初始化Table
 	var oTable = new TableInit();
 	oTable.Init();
 });
 
 /*
- * “导入计划”按钮的点击事件
+ * “完成情况”按钮的点击事件
  * 弹出layer
  */
-function addPlan() {
-	layer.open({
-		type : 2,
-		area : [ '900px', '500px' ],
-		fixed : false, //不固定
-		maxmin : true,
-		title : '新增计划',
-		content : 'addPlan.jsp'
-	});
-}
+function editCompletion(row) {}
 /*
  * “导出文件”按钮点击事件
  */
@@ -74,7 +50,7 @@ var TableInit = function() {
 			striped : true, //是否显示行间隔色
 			cache : false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 			pagination : true, //是否显示分页（*）
-			sortable : true, //是否启用排序
+			sortable : false, //是否启用排序
 			sortOrder : "asc", //排序方式
 			queryParams : oTableInit.queryParams,//传递参数（*）
 			sidePagination : "client", //分页方式：client客户端分页，server服务端分页（*）
@@ -97,40 +73,57 @@ var TableInit = function() {
 			columns : [ {
 				field : 'major',
 				align:"center",
+				valign: 'middle',
 				title : '专业'
 			}, {
 				field : 'startTime',
 				align:"center",
+				valign: 'middle',
 				title : '开始时间'
 			}, {
 				field : 'endTime',
 				align:"center",
+				valign: 'middle',
 				title : '结束时间'
 			}, {
 				field : 'trainingObject',
 				align:"center",
+				valign: 'middle',
 				title : '训练对象'
 			}, {
 				field : 'trainingContent',
 				align:"center",
+				valign: 'middle',
 				title : '训练内容'
 			}, {
 				field : 'trainingPlace',
 				align:"center",
+				valign: 'middle',
 				title : '训练场地'
 			}, {
 				field : 'classHour',
 				align:"center",
+				valign: 'middle',
 				title : '课时'
 			}, {
 				field : 'classMethod',
 				align:"center",
+				valign: 'middle',
 				title : '训练方法'
 			}, {
 				field : 'principal',
 				align:"center",
+				valign: 'middle',
 				title : '负责人'
-			}, ],
+			},{
+				field:'ID',
+				title: '操作',
+				width: 120,
+				align: 'center',
+				valign: 'middle',
+				events: operateEvents,//给按钮注册事件
+				formatter: operateFormatter//定义操作按钮
+				},  ],
 			rowStyle : function(row, index) {
 				var classesArr = [ 'success', 'info' ];
 				var strclass = "";
@@ -150,107 +143,37 @@ var TableInit = function() {
 	//得到查询的参数
 	oTableInit.queryParams = function(params) {
 		var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-			startTime : $("#start").val(),
-			endTime : $("#end").val()
+			startTime : monday,
+			endTime : sunday
 		};
 		return temp;
 	};
 	return oTableInit;
 };
 //赋予的参数
-/* function operateFormatter(value, row, index) {
-	return [ '<a class="btn active disabled" href="#">编辑</a>',
-			'<a class="btn active" href="#">档案</a>',
-			'<a class="btn btn-default" href="#">记录</a>',
-			'<a class="btn active" href="#">准入</a>' ].join('');
-} */
-
-//打开下载对话框	
-function openDownloadDialog(url, saveName) {
-	if (typeof url == 'object' && url instanceof Blob) {
-		url = URL.createObjectURL(url); // 创建blob地址
-	}
-	var aLink = document.createElement('a');
-	aLink.href = url;
-	aLink.download = saveName || ''; // HTML5新增的属性，指定保存文件名，可以不要后缀，注意，file:///模式下不会生效
-	var event;
-	if (window.MouseEvent)
-		event = new MouseEvent('click');
-	else {
-		event = document.createEvent('MouseEvents');
-		event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0,
-				false, false, false, false, 0, null);
-	}
-	aLink.dispatchEvent(event);
-}
-
-// 将一个sheet转成最终的excel文件的blob对象，然后利用URL.createObjectURL下载
-function sheet2blob(sheet, sheetName) {
-	sheetName = sheetName || 'sheet1';
-	var workbook = {
-		SheetNames : [ sheetName ],
-		Sheets : {}
-	};
-	workbook.Sheets[sheetName] = sheet;
-	// 生成excel的配置项
-	var wopts = {
-		bookType : 'xlsx', // 要生成的文件类型
-		cellDates:false,
-		bookSST : false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
-		type : 'binary'
-	};
-	var wbout = XLSX.write(workbook, wopts);
-	var blob = new Blob([ s2ab(wbout) ], {
-		type : "application/octet-stream"
-	});
-	// 字符串转ArrayBuffer
-	function s2ab(s) {
-		var buf = new ArrayBuffer(s.length);
-		var view = new Uint8Array(buf);
-		for (var i = 0; i != s.length; ++i)
-			view[i] = s.charCodeAt(i) & 0xFF;
-		return buf;
-	}
-	return blob;
-}
-
-/**
- * 通用的打开下载对话框方法，没有测试过具体兼容性
- * @param url 下载地址，也可以是一个blob对象，必选
- * @param saveName 保存文件名，可选
+function operateFormatter(value, row, index) {
+	return [	'<button type="button" class="layui-btn layui-btn-sm"> <i class="layui-icon">&#xe608;</i> 完成情况 </button>'].join('');
+} 
+window.operateEvents = {
+		        'click .layui-btn-sm': function (e, value, row, index) {
+		           edit(row);
+		         }, 
+		       };
+/*
+ * 点击某项训练计划填报训练情况登记
  */
-function openDownloadDialog(url, saveName) {
-	if (typeof url == 'object' && url instanceof Blob) {
-		url = URL.createObjectURL(url); // 创建blob地址
-	}
-	var aLink = document.createElement('a');
-	aLink.href = url;
-	aLink.download = saveName || ''; // HTML5新增的属性，指定保存文件名，可以不要后缀，注意，file:///模式下不会生效
-	var event;
-	if (window.MouseEvent)
-		event = new MouseEvent('click');
-	else {
-		event = document.createEvent('MouseEvents');
-		event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0,
-				false, false, false, false, 0, null);
-	}
-	aLink.dispatchEvent(event);
-}
-
-function doAjax(json) {
-	$.ajax({
-		url : "../../savePlanList.do",
-		type : "post",
-		dataType : "json",
-		contentType : 'application/json;charset=utf-8',
-		async : true,
-		data : JSON.stringify(json),
-		success: function(data){
-			console.log(data);
-			}
+function edit(row){
+	console.log(row);
+	layer.open({
+		type : 1,
+		area : [ '1000px', '500px' ],
+		fixed : false, //不固定
+		maxmin : true,
+		title : '编辑完成情况',
+		content : $('#editPage')
 	});
-}
 
+}
 
 /**************************************日期处理****************************************/
 

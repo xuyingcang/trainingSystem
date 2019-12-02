@@ -189,7 +189,7 @@
                 name: "训练情况",
                 id: 7,
                 pid: 1,
-                url:'#/plan/index.jsp'
+                url:'#/completion/index.jsp'
             },{
                 name: "军事体育",
                 id: 8,
