@@ -58,7 +58,6 @@ public class TrainingPlanController
 			writer.print(FAIL);
 			e.printStackTrace();
 		}
-		
 	}
 	
 	@RequestMapping(value="/getPlanList.do",produces={"application/json; charset=UTF-8"})	
@@ -68,6 +67,22 @@ public class TrainingPlanController
 		list=(ArrayList<TrainingPlan>) trainingPlanDao.getPlanList(startTime,endTime);
 		return list;
 		
+	}
+	
+	@RequestMapping(value="/updatePlan.do")	
+	private void updatePlan(@RequestBody TrainingPlan plan,HttpServletResponse response) {
+		PrintWriter writer=null;
+		try
+		{
+			trainingPlanDao.save(plan);
+			writer.print(SUCCESS);
+			writer.flush();
+			writer.close();
+		} catch (Exception e)
+		{
+			writer.print(FAIL);
+			e.printStackTrace();
+		}
 	}
 	
 }

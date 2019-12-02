@@ -57,6 +57,15 @@ public class TrainingPlan
 	
 	@Column(name = "principal",  unique = false)
 	private String principal;//负责人
+	
+	@Column(name = "completion",  unique = false)
+	private String completion;//完成情况
+	
+	@Column(name = "persons",  unique = false)
+	private String persons;//参训人员
+	
+	@Column(name = "remarks",  unique = false)
+	private String remarks;//备注
 
 	public Integer getId()
 	{
@@ -158,42 +167,36 @@ public class TrainingPlan
 		this.principal = principal;
 	}
 
+	public String getCompletion()
+	{
+		return completion;
+	}
+
+	public void setCompletion(String completion)
+	{
+		this.completion = completion;
+	}
+
+	public String getPersons()
+	{
+		return persons;
+	}
+
+	public void setPersons(String persons)
+	{
+		this.persons = persons;
+	}
+
+	public String getRemarks()
+	{
+		return remarks;
+	}
+
+	public void setRemarks(String remarks)
+	{
+		this.remarks = remarks;
+	}
+
 	public TrainingPlan(){}
-
-	public TrainingPlan(Integer id, String major, Timestamp startTime, Timestamp endTime, String trainingContent,
-			String trainingObject, String trainingPlace, float classHour, String classMethod,
-			String principal)
-	{
-		super();
-		this.id = id;
-		this.major = major;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.trainingContent = trainingContent;
-		this.trainingObject = trainingObject;
-		this.trainingPlace = trainingPlace;
-		this.classHour = classHour;
-		this.classMethod = classMethod;
-		this.principal = principal;
-	}
-
-	
-	
-	public TrainingPlan(String trainingContent, String trainingObject)
-	{
-		super();
-		this.trainingContent = trainingContent;
-		this.trainingObject = trainingObject;
-	}
-
-	@Override
-	public String toString()
-	{
-		return "TrainingPlan [id=" + id + ", major=" + major + ", startTime=" + startTime + ", endTime="
-				+ endTime + ", trainingContent=" + trainingContent + ", trainingObject="
-				+ trainingObject + ", trainingPlace=" + trainingPlace + ", classHour=" + classHour
-				+ ", classMethod=" + classMethod + ", principal=" + principal + "]";
-	}
-
-			
+				
 }
