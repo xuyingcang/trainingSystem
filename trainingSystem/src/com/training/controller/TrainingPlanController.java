@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,10 +31,6 @@ public class TrainingPlanController
 	public static final int SUCCESS=200;
 	public static final int FAIL=400;
 	
-	@RequestMapping("/index.do")
-	private String toIndex() {		
-		return "trainingPlan/index";
-	}
 	
 	/**
 	 * 保存穿入的训练计划表格

@@ -15,6 +15,7 @@ public class DicMajor
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id",  unique = false)
 	private Integer id;//主键
+	
 	@Column(name = "name")
 	private String name;//专业名称
 	public Integer getId()

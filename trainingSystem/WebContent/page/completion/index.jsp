@@ -32,11 +32,11 @@
 
 	<div id="editPage" style="display: none;">
 		<form class="form-horizontal" role="form" method="post" action="../../updatePlan.do">
-		      <input name="id"  type="hidden" id="id">
+		      <input name="id"  type="hidden" id="id"> 
 			<div class="form-group">
 				<label for="firstname" class="col-sm-2 control-label">专业</label>
 				<div class="col-sm-8">
-					<input type="text" readonly="readonly" class="form-control" id="major" name="major">
+					<input type="text" readonly="readonly" class="form-control" id="major" >
 				</div>
 			</div>
 			<div class="form-group">
@@ -54,7 +54,7 @@
                         <div class="form-group">
                                 <label for="firstname" class="col-sm-2 control-label">训练内容</label>
                                 <div class="col-sm-8">
-                                        <input type="text" class="form-control"  readonly="readonly" id="trainingContent" name="trainingContent">
+                                        <input type="text" class="form-control"  readonly="readonly" id="trainingContent">
                                 </div>
                         </div>
                         <div class="form-group">

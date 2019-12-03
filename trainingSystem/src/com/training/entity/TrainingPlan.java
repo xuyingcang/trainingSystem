@@ -1,7 +1,5 @@
 package com.training.entity;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -9,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -26,7 +26,6 @@ public class TrainingPlan
 	@Column(name = "id",  unique = false)
 	private Integer id;//主键
 	
-	//@OneToOne
 	@Column(name = "major")
 	private String major;//专业
 	
@@ -198,5 +197,15 @@ public class TrainingPlan
 	}
 
 	public TrainingPlan(){}
-				
+
+	public TrainingPlan(Integer id, String completion, String persons, String remarks)
+	{
+		super();
+		this.id = id;
+		this.completion = completion;
+		this.persons = persons;
+		this.remarks = remarks;
+	}
+			
+	
 }

@@ -8,8 +8,11 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,12 +20,16 @@ import com.training.entity.TrainingPlan;
 
 
 @Repository
-@Transactional
-public class TrainingPlanDao
+public class TrainingPlanDao 
 {
 	@Autowired
 	SessionFactory sessionFactory;
-
+	
+	@Autowired
+	HibernateTemplate hibernateTemplate;
+	
+	@Autowired
+	JdbcTemplate jt;
 	/**
 	 * 保存计划
 	 * 
@@ -30,8 +37,9 @@ public class TrainingPlanDao
 	 */
 	public void save(TrainingPlan trainingPlan)
 	{
+
 		Session session = sessionFactory.openSession();
-		session.saveOrUpdate(trainingPlan);
+		session.save(trainingPlan);
 		session.close();
 	}
 
@@ -42,15 +50,8 @@ public class TrainingPlanDao
 	 */
 	public void update(TrainingPlan trainingPlan)
 	{
-		String hql = "update TrainingPlan t set t.persons=:persons,t.completion=:completion,t.remarks=:remarks where t.id=:id";
-		Session session = sessionFactory.openSession();
-		Query query = session.createQuery(hql);
-		query.setParameter("persons", trainingPlan.getPersons());
-		query.setParameter("completion", trainingPlan.getCompletion());
-		query.setParameter("remarks", trainingPlan.getRemarks());
-		query.setParameter("id", trainingPlan.getId());
-		query.executeUpdate();
-		session.close();
+		String sql="update training_plan t set t.completion='"+trainingPlan.getCompletion()+"',t.persons='"+trainingPlan.getPersons()+"',t.remarks='"+trainingPlan.getRemarks()+"' where t.id="+trainingPlan.getId();
+		jt.execute(sql);
 	}
 	
 	public List getPlanList(String startTime, String endTime) throws ParseException

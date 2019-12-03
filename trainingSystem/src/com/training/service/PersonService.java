@@ -15,7 +15,8 @@ import com.training.entity.Person;
 @Repository
 public class PersonService
 {
-	@Autowired PersonDao personDao;
+	@Autowired 
+	PersonDao personDao;
 	
 	public List getPersonList(String type) throws ParseException {
 		List<Person> persons=personDao.getPersonList(type);
