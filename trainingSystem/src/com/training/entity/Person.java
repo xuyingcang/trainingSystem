@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",unique = false)
+    @Column(name = "id", unique = false)
     private Integer id;//主键
 
     @Column(name = "name")
@@ -22,11 +22,13 @@ public class Person {
     @Column(name = "birthday")
     private Date birthday;//出生日期
 
+    private Integer age;//年龄
+
     @Column(name = "height")
-    private double height;//身高
+    private String height;//身高
 
     @Column(name = "weight")
-    private double weight;//体重
+    private String weight;//体重
 
     @Column(name = "person_type")
     private String person_type;//人员类别
@@ -42,6 +44,14 @@ public class Person {
 
     @Column(name = "training_type")
     private String training_type;//训练类别
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 
     public Integer getId() {
         return id;
@@ -66,30 +76,28 @@ public class Person {
     public void setSex(String sex) {
         this.sex = sex;
     }
-   
-    public Date getBirthday()
-{
-	return birthday;
-}
 
-public void setBirthday(Date birthday)
-{
-	this.birthday = birthday;
-}
+    public Date getBirthday() {
+        return birthday;
+    }
 
-public double getHeight() {
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getHeight() {
         return height;
     }
 
-    public void setHeight(double height) {
+    public void setHeight(String height) {
         this.height = height;
     }
 
-    public double getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 

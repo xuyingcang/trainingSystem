@@ -20,7 +20,6 @@ function myblur(obj) {
                 document.getElementById("username_tip").innerHTML = "<font color='red'>*请输入4至12位账号</font>";
             } else {
                 document.getElementById("username_tip").innerHTML = "请输入您的账号";
-                isUsername = true;
                 validUser(obj);
 
 
@@ -115,7 +114,7 @@ function ajaxFunction(){
 function validUser(obj){
     //创建XMLHttpRequest
     ajaxFunction();
-    var url = "../..//isusernameexits.do";
+    var url = "../../vaild.do";
 
     //打开连接,第一个参数是请求方式，第二个参数是请求地址，第三个参数是同步还是异步，true异步，false是同步
     xmlHttp.open('post', url, true);

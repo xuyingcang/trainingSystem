@@ -30,4 +30,12 @@ public class PersonService
 		}
 		return list;
 	}
+
+
+	/**
+	 * 添加人员
+	 */
+	public void addPerson(Person person){
+		personDao.save(person);
+	}
 }
