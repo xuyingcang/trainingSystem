@@ -1,5 +1,6 @@
 package com.training.controller;
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +42,7 @@ public class PersonController {
 
     @RequestMapping(value = "/getPersonList1.do", produces = {"application/json; charset=UTF-8"})
     @ResponseBody
-    private List getPersonlist1() throws ParseException {
+    private List getPersonlist1() throws Exception {
         int i =1;//计数器
         List<Person> personList = personDao.getPersonList("");
         for (Person person : personList) {
@@ -49,6 +50,7 @@ public class PersonController {
             person.setId(i++);
             person.setHeight(person.getHeight()+"cm");
             person.setWeight(person.getWeight()+"kg");
+            person.setAge(GetAge.getAge(person.getBirthday()));
         }
         return personList;
     }
@@ -61,7 +63,6 @@ public class PersonController {
         //把获得到的数据封装到person中
         BeanUtils.populate(person, parameterMap);
         //设置年龄
-        person.setAge(GetAge.getAge(person.getBirthday()));
 
 
         try {

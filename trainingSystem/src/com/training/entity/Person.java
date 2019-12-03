@@ -22,7 +22,6 @@ public class Person {
     @Column(name = "birthday")
     private Date birthday;//出生日期
 
-    @Column(name = "age")
     private Integer age;//年龄
 
     @Column(name = "height")
