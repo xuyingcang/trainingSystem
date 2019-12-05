@@ -1,4 +1,5 @@
 var json;
+var index;//layer的index
 var monday;//当周周一
 var sunday;//当周周日
 var yzks;//一周开始时间
@@ -163,30 +164,67 @@ window.operateEvents = {
  * 点击某项训练计划填报训练情况登记
  */
 function edit(row){
-	var p_type = [
-	    {id: 1, text:'全体人员'},
-	    {id: 2, text:'干部'},
-	    {id: 3, text:'战士'}
-	]
 	//初始化select2
-	initSelector("trainingObject",p_type);
-	//loadSelector("persons","../../getPersonList.do");
+	loadSelector("persons","../../getPersonList.do");
 	loadData(row);
-	layer.open({
+	index=layer.open({
 		type : 1,
 		area : [ '1000px', '500px' ],
 		fixed : false, //不固定
 		maxmin : true,
+		zIndex:1001,
 		title : '编辑完成情况',
 		content : $('#editPage')
 	});
+}
 
+function closeLayer(){
+	layer.close(index);
+}
+
+function toAjax() {
+	var form =$("#form-plan").serialize();
+	$.ajax({
+        url : "../../updatePlan.do",
+        type : "post",
+        async:false,
+        data : form,
+        success:function(data){
+			if(data==200){
+				 layer.msg('更新成功！');
+				 layer.close(index);
+			}else{
+				 layer.msg('更新失败！');
+			}
+		},
+		error:function(XMLHttpRequest, textStatus, errorThrown){
+            console.log("ajax请求失败");
+        }
+    });
+}
+
+function initcombobox(){
+	$('#persons').combobox({
+		url:'../../getPersonList.do',
+		valueField:'id',
+		textField:'text',
+		multiple:true,
+		//editable:false,
+		dropdownParent :$('#editPage'),
+		onLoadSuccess:function(rec){
+			console.log(rec);
+		},
+		onSelect: function(rec){
+			$('#persons').val(rec.XM);
+		}
+	});
 }
 
 /*
  * 加载对象
  */
 function loadData(obj) {
+	//$("#persons").val(['0','2']).trigger('change');
 	for (var item in obj){
 		$("#"+item).val(obj[item]);//设置属性
 		//$("#"+item).attr("name",item);//设置name
@@ -198,7 +236,10 @@ function loadData(obj) {
  */
 function initSelector(id, data) {
 	$('#' + id).select2({
+		placeholder: '请选择',
 		data:data,
+		closeOnSelect:false,
+		dropdownParent :$('#editPage'),
 	});
 }
 
