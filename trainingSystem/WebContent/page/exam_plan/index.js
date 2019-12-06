@@ -5,28 +5,27 @@
 			oTable.Init();
 	});
 
-
-    /**
-     * 查询
-     */
-    function queryPerson() {
-        $('#table').bootstrapTable('refresh');
-    }
-
-    /*
-     * “导入计划”按钮的点击事件
-     * 弹出layer
-     */
-	function addPerson() {
+	/*
+	 * “导入计划”按钮的点击事件
+	 * 弹出layer
+	 */
+	function addExamPlan() {
 		layer.open({
 			  type: 2,
 			  area: ['800px', '400px'],
 			  fixed: false, //不固定
 			  maxmin: true,
-			  title:'新增人员',
-			  content: 'addPerson.jsp'
+			  title:'新增计划',
+			  content: 'addExamPlan.jsp'
 			});
 	}
+
+    /**
+     * 查询
+     */
+    function   queryExamPlan() {
+        $('#table').bootstrapTable('refresh');
+    }
 
 	/*
 	*初始化Bootstrap Table
@@ -36,7 +35,7 @@
         //初始化Table
         oTableInit.Init = function () {
             $('#table').bootstrapTable({
-                url: '../..//getPersonList1.do', //请求后台的URL（*）
+                url: '../../getExamplan.do', //请求后台的URL（*）
                 method: 'get', //请求方式（*）
                 toolbar: '#toolbar', //工具按钮用哪个容器
                 toolbarAlign: 'right',//工具栏的位置
@@ -67,35 +66,18 @@
                     field: 'id',
                     title: 'ID'
                 }, {
-                    field: 'name',
-                    title: '姓名'
+                    field: 'content',
+                    title: '考核内容'
                 }, {
-                    field: 'sex',
-                    title: '性别'
+                    field: 'time',
+                    title: '考核时间'
                 }, {
-                    field: 'age',
-                    title: '年龄'
+                    field: 'type',
+                    title: '考核类型'
                 }, {
-                    field: 'height',
-                    title: '身高'
-                }, {
-                    field: 'weight',
-                    title: '体重'
-                }, {
-                    field: 'person_type',
-                    title: '人员类别'
-                }, {
-                    field: 'military_rank',
-                    title: '军衔'
-                }, {
-                    field: 'duty',
-                    title: '职务'
-                }, {
-                    field: 'profession',
-                    title: '专业'
-                }, {
-                    field: 'training_type',
-                    title: '训练类型'
+                    field: 'percent',
+                    title: '实操占比'
+
                 }],
                 rowStyle: function (row, index) {
                     var classesArr = ['success', 'info'];

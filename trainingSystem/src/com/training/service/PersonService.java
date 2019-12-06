@@ -31,11 +31,21 @@ public class PersonService
 		return list;
 	}
 
-
-	/**
-	 * 添加人员
-	 */
-	public void addPerson(Person person){
-		personDao.save(person);
+	public List getPersonListAll(String type) throws ParseException {
+		List<Person> persons = personDao.getPersonList(type);
+		List<Map> list = new ArrayList<Map>();
+		for (Person person : persons) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("id", person.getId().toString());
+			map.put("text", person.getName());
+			map.put("hight", person.getHeight());
+			map.put("weight", person.getWeight());
+			map.put("sex", person.getSex());
+			map.put("age", String.valueOf(person.getAge()));
+			list.add(map);
+		}
+		return list;
 	}
+
+
 }

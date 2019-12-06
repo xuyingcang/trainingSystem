@@ -4,6 +4,10 @@ import java.sql.Date;
 
 import javax.persistence.*;
 
+/**
+ * 人员表
+ */
+
 @Entity
 @Table(name = "person")
 //（id、姓名、性别、出生日期、身高、体重、人员类别、军衔、职务、专业、训练类别）

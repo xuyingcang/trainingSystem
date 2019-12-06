@@ -111,12 +111,9 @@
 <script type="text/javascript" src="../../resources/xlsx.full.min.js"></script>
 <script type="text/javascript" src="../../resources/layer/layer.js"></script>
 <script type="text/javascript" src="../../resources/layui/layui.all.js"></script>
-<script type="text/javascript"
-	src="../../resources/select2/js/select2.min.js"></script>
-<script type="text/javascript"
-	src="../../resources/select2/js/pinyin.js"></script>
-<script type="text/javascript"
-	src="../../resources/select2/js/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="../../resources/select2/js/select2.min.js"></script>
+<script type="text/javascript" src="../../resources/select2/js/pinyin.js"></script>
+<script type="text/javascript" src="../../resources/select2/js/i18n/zh-CN.js"></script>
 
 <script type="text/javascript" src="index.js"></script>
 

@@ -40,36 +40,42 @@ public class PersonController {
         return list;
     }
 
+    /**
+     * 用于前台展示
+     *
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/getPersonList1.do", produces = {"application/json; charset=UTF-8"})
     @ResponseBody
     private List getPersonlist1() throws Exception {
-        int i =1;//计数器
-        List<Person> personList = personDao.getPersonList("");
+        int i = 1;//计数器
+        List<Person> personList = personDao.getPersonListAll();
         for (Person person : personList) {
-
             person.setId(i++);
-            person.setHeight(person.getHeight()+"cm");
-            person.setWeight(person.getWeight()+"kg");
+            person.setHeight(person.getHeight() + "cm");
+            person.setWeight(person.getWeight() + "kg");
             person.setAge(GetAge.getAge(person.getBirthday()));
         }
         return personList;
     }
 
+    /**
+     * 添加人员
+     *
+     * @throws Exception
+     */
     @RequestMapping(value = "/addPerson.do")
-    public void addPerson(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //获得前台传过来的所有数据
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        Person person = new Person();
-        //把获得到的数据封装到person中
-        BeanUtils.populate(person, parameterMap);
-        //设置年龄
+    public void addPerson(Person person) throws Exception {
+        personDao.save(person);
+    }
 
-
-        try {
-            personService.addPerson(person);
+    @RequestMapping(value ="vaildPerson.do")
+    public void isSuccess(Person person,HttpServletResponse response) throws  Exception {
+        List persons = personDao.getPersonListToId(person);
+        if (persons.size()>0) {
             response.getWriter().write(SUCCESS);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
             response.getWriter().write(FAIL);
         }
     }
