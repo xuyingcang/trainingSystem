@@ -21,21 +21,21 @@
 
 <div id="toolbar" class="toolbar"></div>
 <table id="table" style="text-align:center"></table>
-<div style="display: none" id="sports_score">
-    <form style="margin-left: 70px" method="post" action="../../addMAjorScore.do">
+<div style="display: none" id="major_score">
+    <form style="margin-left: 70px" method="post" id="form-major" class="layui-form" onsubmit="myMajorAction()">
 
         <div style="margin-top: 10px;" class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">计划</label>
                 <div class="layui-input-inline">
-                    <select id="plan" name="examPlan.id"  style=" height: 35px;width:190px;border-color: #D2D2D2">
+                    <select id="plan" name="examPlan.id"  lay-ignore style=" height: 35px;width:190px;border-color: #D2D2D2">
                     </select>
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">姓名</label>
                 <div class="layui-input-inline">
-                    <select id="persons" name="person.id"  style=" height: 35px;width:190px;border-color: #D2D2D2">
+                    <select id="persons" name="person.id"  lay-ignore style=" width:190px;border-color: #D2D2D2">
                     </select>
                 </div>
             </div>
@@ -48,15 +48,15 @@
             <div class="layui-inline">
                 <label class="layui-form-label">实操成绩</label>
                 <div class="layui-input-inline">
-                    <input name="operation" class="layui-input" type="text" autocomplete="off"
-                           lay-verify="required">
+                    <input name="operation" class="layui-input"  placeholder="请输入成绩" type="text" autocomplete="off"
+                           lay-verify="required|number">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">理论成绩</label>
                 <div class="layui-input-inline">
-                    <input name="theory" class="layui-input" type="text" placeholder="" autocomplete="off"
-                           lay-verify="required">
+                    <input name="theory" class="layui-input"  placeholder="请输入成绩" type="text" placeholder="" autocomplete="off"
+                           lay-verify="required|number">
                 </div>
             </div>
 
@@ -65,24 +65,22 @@
             <div class="layui-inline">
                 <label class="layui-form-label">总成绩</label>
                 <div class="layui-input-inline">
-                    <input name="totalScore" class="layui-input" type="text" placeholder="" autocomplete="off"
-                           lay-verify="required">
+                    <input name="totalScore" class="layui-input"  placeholder="请输入成绩"  type="text" placeholder="" autocomplete="off"
+                           lay-verify="required|number">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">成绩评定</label>
                 <div class="layui-input-inline">
-                    <input name="evaluate" class="layui-input" type="text" placeholder="" autocomplete="off"
-                           lay-verify="required|number">
+                    <input name="evaluate" class="layui-input"  placeholder="请输入结果" type="text" placeholder="" autocomplete="off"
+                           lay-verify="required">
                 </div>
             </div>
 
         </div>
-
-
         <div class="layui-form-item">
             <div style="margin-left: 400px" class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="formDemo">添加</button>
+                <button class="layui-btn" lay-submit >添加</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>

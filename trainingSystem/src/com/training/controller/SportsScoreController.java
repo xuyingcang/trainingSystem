@@ -11,18 +11,35 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class SportsScoreController {
 
+
+    public static final int SUCCESS=200;
+    public static final int FAIL=400;
+
     @Autowired
     SportsScoreDao sportsScoreDao;
 
     @RequestMapping(value = "/addSportScore.do")
-    public void addSportScore(SportsScore sportsScore)  {
-        sportsScoreDao.addSportsScore(sportsScore);
+    public void addSportScore(SportsScore sportsScore,HttpServletResponse response)  {
+
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+            sportsScoreDao.addSportsScore(sportsScore);
+            writer.print(SUCCESS);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            writer.print(FAIL);
+            e.printStackTrace();
+        }
     }
 
 

@@ -20,7 +20,7 @@
 <link type="text/css" href="../../resources/bootstrap/css/bootstrap.all.min.css" rel="stylesheet">
 <link type="text/css" href="../../resources/layui/css/layui.css" rel="stylesheet">
 <body>
-<form style="margin-left: 70px" class="layui-form" method="post" action="../../addPerson.do">
+<form style="margin-left: 70px" id="form-person" class="layui-form" method="post" onsubmit="myPersonAction()"  >
 
     <div style="margin-top: 10px;" class="layui-form-item">
         <div class="layui-inline">
@@ -125,7 +125,7 @@
     </div>
     <div class="layui-form-item">
         <div style="margin-left: 400px" class="layui-input-block">
-            <button class="layui-btn" lay-submit  >添加</button>
+            <button class="layui-btn" lay-submit >添加</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>

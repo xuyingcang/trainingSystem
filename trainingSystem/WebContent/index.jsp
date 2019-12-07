@@ -196,7 +196,7 @@
                 pid: 2,
                 url:'#/sports_score/index.jsp'
             }, {
-                name: "理论考核",
+                name: "专业技能",
                 id: 9,
                 pid: 2,
                 url:'#/major_score/index.jsp'

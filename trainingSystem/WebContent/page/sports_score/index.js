@@ -2,6 +2,8 @@ $(function () {
     //2.初始化Table
     var oTable = new TableInit();
     oTable.Init();
+    var layer = layui.layer;
+
 });
 
 /*
@@ -11,7 +13,9 @@ $(function () {
 function addSportScore() {
     name();
     plan();
+
 }
+
 
 /*
  * 点击某项训练计划填报训练情况登记
@@ -94,6 +98,32 @@ function loadSelectorPlan(id, url) {
             initSelectorPlan(id, data);
         },
     });
+}
+
+/**
+ * 提交点击事件
+ */
+function mySportsAction(){
+    doAjax();
+}
+function doAjax() {
+    var form = $("#form-sports").serialize();
+    $.ajax({
+        url : "../../addSportScore.do",
+        type : "post",
+        async : false,
+        data : form,
+        success:function(data){
+            if(data==200){
+                layer.msg('添加成功！');
+            }else{
+                layer.msg('添加失败！');
+            }
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown){
+            console.log("ajax请求失败");}
+    });
+
 }
 
 

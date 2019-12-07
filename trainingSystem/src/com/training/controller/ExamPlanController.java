@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,6 +25,10 @@ import java.util.Map;
 @Controller
 public class ExamPlanController {
 
+
+    public static final int SUCCESS=200;
+    public static final int FAIL=400;
+
     @Autowired
     ExamPlanDao examPlanDao;
 
@@ -30,8 +36,19 @@ public class ExamPlanController {
     ExamPlanService examPlanService;
 
     @RequestMapping(value = "/addExamPlan.do")
-    private void addExamPlan(ExamPlan examPlan) throws Exception {
-        examPlanDao.addExamPlan(examPlan);
+    private void addExamPlan(ExamPlan examPlan,HttpServletResponse response) throws Exception {
+
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+            examPlanDao.addExamPlan(examPlan);
+            writer.print(SUCCESS);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            writer.print(FAIL);
+            e.printStackTrace();
+        }
 
     }
 

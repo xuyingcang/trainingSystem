@@ -9,17 +9,33 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 @Controller
 public class MajorScoreController {
 
+    public static final int SUCCESS=200;
+    public static final int FAIL=400;
+
     @Autowired
     MajorScoreDao majorScoreDao;
 
     @RequestMapping(value = "/addMAjorScore.do")
-    public void addMagorScore(MajorScore majorScore)  {
-        majorScoreDao.addMajorScore(majorScore);
+    public void addMagorScore(MajorScore majorScore, HttpServletResponse response)  {
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+            majorScoreDao.addMajorScore(majorScore);
+            writer.print(SUCCESS);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            writer.print(FAIL);
+            e.printStackTrace();
+        }
     }
 
 

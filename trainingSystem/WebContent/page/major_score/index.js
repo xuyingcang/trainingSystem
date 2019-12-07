@@ -2,6 +2,8 @@ $(function () {
     //2.初始化Table
     var oTable = new TableInit();
     oTable.Init();
+    var layer = layui.layer;
+
 });
 
 /*
@@ -11,6 +13,34 @@ $(function () {
 function addSportScore() {
     name();
     plan();
+
+}
+
+/**
+ * 表单提交的点击事件
+ */
+function myMajorAction() {
+    doAjax();
+}
+
+function doAjax() {
+    var form = $("#form-major").serialize();
+    $.ajax({
+        url : "../../addMAjorScore.do",
+        type : "post",
+        async : false,
+        data : form,
+        success:function(data){
+            if(data==200){
+                layer.msg('添加成功！');
+            }else{
+                layer.msg('添加失败！');
+            }
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown){
+            console.log("ajax请求失败");}
+    });
+
 }
 
 /*
@@ -25,8 +55,8 @@ function name() {
         fixed: false, //不固定
         maxmin: true,
         zIndex: 1001,
-        title: '编辑完成情况',
-        content: $('#sports_score')
+        title: '考核成绩',
+        content:$('#major_score') ,
     });
 }
 
@@ -38,7 +68,7 @@ function initSelectorName(id, data) {
     $('#'+id).select2({
         data: data,
         closeOnSelect: false,
-        dropdownParent: $('#sports_score'),
+        dropdownParent: $('#major_score'),
     });
 }
 
@@ -76,7 +106,7 @@ function initSelectorPlan(id, data) {
     $('#'+id).select2({
         data: data,
         closeOnSelect: false,
-        dropdownParent: $('#sports_score'),
+        dropdownParent: $('#major_score'),
     });
 }
 

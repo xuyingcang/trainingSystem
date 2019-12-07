@@ -1,5 +1,6 @@
 package com.training.controller;
 
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.List;
@@ -66,18 +67,20 @@ public class PersonController {
      * @throws Exception
      */
     @RequestMapping(value = "/addPerson.do")
-    public void addPerson(Person person) throws Exception {
-        personDao.save(person);
-    }
+    public void addPerson(Person person,HttpServletResponse response) {
 
-    @RequestMapping(value ="vaildPerson.do")
-    public void isSuccess(Person person,HttpServletResponse response) throws  Exception {
-        List persons = personDao.getPersonListToId(person);
-        if (persons.size()>0) {
-            response.getWriter().write(SUCCESS);
-        } else {
-            response.getWriter().write(FAIL);
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+            personDao.save(person);
+            writer.print(SUCCESS);
+            writer.flush();
+            writer.close();
+        } catch (Exception e) {
+            writer.print(FAIL);
+            e.printStackTrace();
         }
     }
+
 
 }

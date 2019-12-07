@@ -1,6 +1,7 @@
 $(function () {
     layui.use('form', function(){
         var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        var layer = layui.layer;
 
         //……
 
@@ -15,24 +16,21 @@ $(function () {
 /*
  * 添加按钮的点击事件
  */
-function uploadPlan() {
+function myExamPlanAction() {
     doAjax();
 }
 
 
 function doAjax() {
+    var form = $("#form-examplan").serialize();
     $.ajax({
-        url : "../../addPerson.do",
+        url : "../../addExamPlan.do",
         type : "post",
-        dataType : "text",
-        contentType : 'application/json;charset=utf-8',
-        async : true,
-        data : "1",
+        async : false,
+        data : form,
         success:function(data){
-            var layer = layui.layer;
             if(data==200){
                 layer.msg('添加成功！');
-                $('#table').bootstrapTable('destroy');//重置bootstraptable
             }else{
                 layer.msg('添加失败！');
             }

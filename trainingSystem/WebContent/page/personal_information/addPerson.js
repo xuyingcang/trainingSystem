@@ -15,27 +15,27 @@ $(function () {
 /*
  * 添加按钮的点击事件
  */
-function uploadPerson() {
+function myPersonAction() {
     doAjax();
 }
 
 
 function doAjax() {
+    var form = $("#form-person").serialize();
     $.ajax({
-        url : "../../vaildPerson.do",
+        url : "../../addPerson.do",
         type : "post",
-        dataType : "text",
-        contentType : 'application/json;charset=utf-8',
-        async : true,
-        data : "",
+        async : false,
+        data : form,
         success:function(data){
-            var layer = layui.layer;
             if(data==200){
                 layer.msg('添加成功！');
-                $('#table').bootstrapTable('destroy');//重置bootstraptable
             }else{
                 layer.msg('添加失败！');
             }
         },
+        error:function(XMLHttpRequest, textStatus, errorThrown){
+            console.log("ajax请求失败");}
     });
+
 }
