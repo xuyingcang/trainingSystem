@@ -211,7 +211,7 @@
                 name: "个人情况",
                 id: 11,
                 pid: 3,
-                url:''
+                url:'#/person_statistics/index.jsp'
             }, {
                 name: "人员信息",
                 id: 12,

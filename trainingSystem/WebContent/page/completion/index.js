@@ -1,4 +1,5 @@
 var json;
+var persons;//存储后台传递的人员数据
 var index;//layer的index
 var monday;//当周周一
 var sunday;//当周周日
@@ -203,31 +204,16 @@ function toAjax() {
     });
 }
 
-function initcombobox(){
-	$('#persons').combobox({
-		url:'../../getPersonList.do',
-		valueField:'id',
-		textField:'text',
-		multiple:true,
-		//editable:false,
-		dropdownParent :$('#editPage'),
-		onLoadSuccess:function(rec){
-			console.log(rec);
-		},
-		onSelect: function(rec){
-			$('#persons').val(rec.XM);
-		}
-	});
-}
 
 /*
  * 加载对象
  */
 function loadData(obj) {
-	//$("#persons").val(['0','2']).trigger('change');
 	for (var item in obj){
 		$("#"+item).val(obj[item]);//设置属性
-		//$("#"+item).attr("name",item);//设置name
+		if(item=="persons"){
+			persons=obj[item];
+		}
 	}
 }
 
@@ -255,6 +241,8 @@ function loadSelector(id,url) {
 		async : true,
 		success:function(data){
 			initSelector(id,data);
+			const array=persons.split(',')
+			$("#persons").val(array).trigger('change');
 		},
 	});
 }

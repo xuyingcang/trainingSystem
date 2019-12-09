@@ -50,9 +50,11 @@
                                 <div class="layui-input-inline">
                                         <select id="trainingObject" disabled="disabled"
                                                 class="layui-input">
-                                                <option selected="selected">全体人员</option>
+                                                <option>全体人员</option>
+                                                <option>指挥军官</option>
+                                                <option>技术军官</option>
+                                                <option>文职人员</option>
                                                 <option>战士</option>
-                                                <option>干部</option>
                                         </select>
                                 </div>
 			</div>
@@ -111,12 +113,10 @@
 <script type="text/javascript" src="../../resources/xlsx.full.min.js"></script>
 <script type="text/javascript" src="../../resources/layer/layer.js"></script>
 <script type="text/javascript" src="../../resources/layui/layui.all.js"></script>
-<script type="text/javascript"
-	src="../../resources/select2/js/select2.min.js"></script>
-<script type="text/javascript"
-	src="../../resources/select2/js/pinyin.js"></script>
-<script type="text/javascript"
-	src="../../resources/select2/js/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="../../resources/select2/js/select2.min.js"></script>
+<script type="text/javascript" src="../../resources/select2/js/pinyin.js"></script>
+<script type="text/javascript" src="../../resources/select2/js/i18n/zh-CN.js"></script>
+
 
 <script type="text/javascript" src="index.js"></script>
 
