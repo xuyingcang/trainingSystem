@@ -31,6 +31,7 @@ public class MajorScoreDao {
         String hql = "from MajorScore";
         Query query = session.createQuery(hql);
         List list = query.list();
+        session.close();
         return list;
 
     }

@@ -46,8 +46,9 @@ public class PersonDao
 
 	public Person getPersonListToId(Integer id) {
 		Session session = sessionFactory.openSession();
-
-		return session.get(Person.class, id);
+		Person person = session.get(Person.class, id);
+		session.close();
+		return person;
 
 	}
 

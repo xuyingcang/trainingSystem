@@ -30,6 +30,7 @@ public class SportsScoreDao {
         String hql = "from SportsScore";
         Query query = session.createQuery(hql);
         List list = query.list();
+        session.close();
         return list;
 
     }

@@ -49,7 +49,9 @@ public class ExamPlanDao {
 
     public ExamPlan getExamPlanListToId(Integer id) {
         Session session = sessionFactory.openSession();
-        return session.get(ExamPlan.class, id);
+        ExamPlan examPlan = session.get(ExamPlan.class, id);
+        session.close();
+        return examPlan;
     }
 
     public void deleteExamPlan(ExamPlan examPlan) {
