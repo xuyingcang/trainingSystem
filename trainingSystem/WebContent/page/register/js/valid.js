@@ -67,6 +67,7 @@ function myblur(obj) {
 
 //判断提交
 function onSubmit() {
+
     if (!isSubmit) {
         alert("请正确填写信息");
     }

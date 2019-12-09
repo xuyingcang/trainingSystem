@@ -194,12 +194,12 @@
                 name: "军事体育",
                 id: 8,
                 pid: 2,
-                url:'#/training_result/index.jsp'
+                url:'#/sports_score/index.jsp'
             }, {
-                name: "理论考核",
+                name: "专业技能",
                 id: 9,
                 pid: 2,
-                url:''
+                url:'#/major_score/index.jsp'
             }, 
             , {
                 name: "单位情况",
@@ -217,6 +217,11 @@
                 id: 12,
                 pid: 4,
                 url:'#/personal_information/index.jsp'
+            },{
+                name: "考核计划",
+                id: 13,
+                pid: 4,
+                url:'#/exam_plan/index.jsp'
             },
         ];
         formatMenus();
@@ -238,7 +243,7 @@
                 content: `<div style="padding: 20px;">是否退出</div>`,
                 btn: ["确定退出", "暂不退出"],
                 yes: function (index, layero) {
-                    location.href = "login.jsp";
+                    location.href = "exitLogin.do";
                 },
                 btn2: function (index, layero) {
                     //return false 开启该代码可禁止点击该按钮关闭

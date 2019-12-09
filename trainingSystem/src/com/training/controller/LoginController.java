@@ -2,6 +2,7 @@ package com.training.controller;
 
 import com.training.dao.UserDao;
 import com.training.entity.User;
+import com.training.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ public class LoginController {
     private void toLogin(@RequestParam(value = "username") String username, @RequestParam(value = "password")String password, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
        User user = userDao.selectUser(username);
         if (user != null) {
-            if (user.getPassword().equals(password)) {
+            if (user.getPassword().equals(MD5Utils.encrypt(password))) {
                 //登陆成功，把user对象储存到httpsession
                 request.getSession().setAttribute("user",user);
                 //跳转到首页
@@ -40,5 +41,10 @@ public class LoginController {
             return;
         }
     }
+    @RequestMapping(value = "exitLogin.do")
+    private String  exitLogin(HttpServletRequest request){
 
+        request.getSession().removeAttribute("user");
+        return "../login";
+    }
 }

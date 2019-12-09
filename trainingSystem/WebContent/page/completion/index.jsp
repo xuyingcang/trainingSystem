@@ -117,7 +117,6 @@
 <script type="text/javascript" src="../../resources/select2/js/pinyin.js"></script>
 <script type="text/javascript" src="../../resources/select2/js/i18n/zh-CN.js"></script>
 
-
 <script type="text/javascript" src="index.js"></script>
 
 

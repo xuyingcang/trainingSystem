@@ -2,6 +2,7 @@ $(function () {
     layui.use('form', function(){
         var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
         var layer = layui.layer;
+
         //……
 
         //但是，如果你的HTML是动态生成的，自动渲染就会失效
@@ -15,15 +16,15 @@ $(function () {
 /*
  * 添加按钮的点击事件
  */
-function myPersonAction() {
+function myExamPlanAction() {
     doAjax();
 }
 
 
 function doAjax() {
-    var form = $("#form-person").serialize();
+    var form = $("#form-examplan").serialize();
     $.ajax({
-        url : "../../addPerson.do",
+        url : "../../addExamPlan.do",
         type : "post",
         async : false,
         data : form,
@@ -34,8 +35,5 @@ function doAjax() {
                 layer.msg('添加失败！');
             }
         },
-        error:function(XMLHttpRequest, textStatus, errorThrown){
-            console.log("ajax请求失败");}
     });
-
 }

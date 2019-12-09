@@ -2,6 +2,9 @@ package com.training.entity;
 
 import javax.persistence.*;
 
+/**
+ * 用户表
+ */
 @Entity
 @Table(name = "user")
 //id、用户名、密码、姓名、用户类型、登录时间
