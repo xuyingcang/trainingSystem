@@ -243,7 +243,7 @@
                 content: `<div style="padding: 20px;">是否退出</div>`,
                 btn: ["确定退出", "暂不退出"],
                 yes: function (index, layero) {
-                    location.href = "login.jsp";
+                    location.href = "exitLogin.do";
                 },
                 btn2: function (index, layero) {
                     //return false 开启该代码可禁止点击该按钮关闭

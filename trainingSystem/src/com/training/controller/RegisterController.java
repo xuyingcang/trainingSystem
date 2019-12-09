@@ -2,6 +2,7 @@ package com.training.controller;
 
 import com.training.dao.UserDao;
 import com.training.entity.User;
+import com.training.util.MD5Utils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,15 +20,12 @@ public class RegisterController {
     UserDao userDao;
 
     @RequestMapping(value = "/register.do")
-    public void toRegister(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void toRegister(User user, HttpServletResponse response) throws Exception {
 
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        //创建user对象
-        User user = new User();
-        //设置编码
         response.setContentType("text/html;charset=UTF-8");
-        //封装数据
-        BeanUtils.populate(user, parameterMap);
+
+        //加密
+        user.setPassword(MD5Utils.encrypt(user.getPassword()));
         //调用dao保存数据
         userDao.save(user);
         response.getWriter().write("注册成功，三秒后跳转到登录页面...");

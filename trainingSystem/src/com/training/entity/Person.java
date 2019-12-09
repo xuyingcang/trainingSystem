@@ -1,5 +1,10 @@
 package com.training.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.training.util.DateJsonDeserialize;
+import com.training.util.DateJsonSerialize;
+
 import java.sql.Date;
 
 import javax.persistence.*;
@@ -23,8 +28,14 @@ public class Person {
     @Column(name = "sex")
     private String sex;//性别
 
+
+    //@JsonDeserialize(using = DateJsonDeserialize.class)// 请求时：将字符串类型的格式转换成时间类型
+    //@JsonSerialize(using=DateJsonSerialize.class)// 响应结果：将时间类型的格式化
     @Column(name = "birthday")
     private Date birthday;//出生日期
+
+    private Integer number;//序号
+
 
     private Integer age;//年龄
 
@@ -48,6 +59,14 @@ public class Person {
 
     @Column(name = "training_type")
     private String training_type;//训练类别
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
 
     public Integer getAge() {
         return age;

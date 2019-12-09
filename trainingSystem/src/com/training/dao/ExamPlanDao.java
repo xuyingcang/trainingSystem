@@ -5,6 +5,7 @@ import com.training.entity.ExamPlan;
 import com.training.entity.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -36,5 +37,26 @@ public class ExamPlanDao {
         List<ExamPlan> list = query.list();
         session.close();
         return list;
+    }
+
+    public void updateExamPlan(ExamPlan examPlan) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.update(examPlan);
+        tx.commit();
+        session.close();
+    }
+
+    public ExamPlan getExamPlanListToId(Integer id) {
+        Session session = sessionFactory.openSession();
+        return session.get(ExamPlan.class, id);
+    }
+
+    public void deleteExamPlan(ExamPlan examPlan) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.delete(examPlan);
+        tx.commit();
+        session.close();
     }
 }

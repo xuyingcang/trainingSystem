@@ -53,7 +53,7 @@ public class PersonController {
         int i = 1;//计数器
         List<Person> personList = personDao.getPersonListAll();
         for (Person person : personList) {
-            person.setId(i++);
+            person.setNumber(i++);
             person.setHeight(person.getHeight() + "cm");
             person.setWeight(person.getWeight() + "kg");
             person.setAge(GetAge.getAge(person.getBirthday()));
@@ -67,7 +67,7 @@ public class PersonController {
      * @throws Exception
      */
     @RequestMapping(value = "/addPerson.do")
-    public void addPerson(Person person,HttpServletResponse response) {
+    public void addPerson(Person person, HttpServletResponse response) {
 
         PrintWriter writer = null;
         try {
@@ -82,5 +82,33 @@ public class PersonController {
         }
     }
 
+    @RequestMapping(value = "/deletePsername.do")
+    public void deletePerson(Integer id,HttpServletResponse response) {
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+            personDao.deletePerson(personDao.getPersonListToId(id));
+            writer.print(SUCCESS);
+            writer.flush();
+            writer.close();
+        } catch (Exception e) {
+            writer.print(FAIL);
+            e.printStackTrace();
+        }
+    }
 
+    @RequestMapping(value = "/updatePsername.do")
+    public void updatePerson(Person person, HttpServletResponse response) {
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+            personDao.updatePerson(person);
+            writer.print(SUCCESS);
+            writer.flush();
+            writer.close();
+        } catch (Exception e) {
+            writer.print(FAIL);
+            e.printStackTrace();
+        }
+    }
 }

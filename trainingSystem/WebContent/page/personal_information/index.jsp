@@ -13,12 +13,11 @@
 <link type="text/css" href="../../resources/layui/css/layui.css"	rel="stylesheet">
 <body>
 	<button class="layui-btn" onclick=" queryPerson()">查询计划</button>
-	<button class="layui-btn" onclick="exportFile()">导出计划</button>
 	<button class="layui-btn"  onclick="addPerson()">新增人员</button>
 
 
 	<div id="toolbar"  class="toolbar"></div>
-	<table id="table" style="text-align:center"></table>
+	<table id="table" style="text-align:center "></table>
 </body>
 
 <script type="text/javascript" src="../../resources/jquery-3.4.1.min.js"></script>

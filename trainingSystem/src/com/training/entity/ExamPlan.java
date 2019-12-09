@@ -16,6 +16,8 @@ public class ExamPlan {
 
     @Column(name = "content")
     private String content;//考试内容
+    private Integer number;
+
 
     @Column(name = "time")
     private String time;//考试时间
@@ -25,6 +27,14 @@ public class ExamPlan {
 
     @Column(name = "percent")
     private double percent;//实操考核占比
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
 
     public Integer getId() {
         return id;

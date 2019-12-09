@@ -64,7 +64,7 @@ public class ExamPlanController {
         List<ExamPlan> examPlans = examPlanDao.getExamPlan();
         for (ExamPlan examPlan : examPlans) {
 
-            examPlan.setId(i++);
+            examPlan.setNumber(i++);
             String time = examPlan.getTime();
 
             examPlan.setTime( time.substring(0,10));
@@ -78,6 +78,36 @@ public class ExamPlanController {
         List<Person> list = null;
         list = examPlanService.getExamPlanList();
         return list;
+    }
+
+    @RequestMapping(value = "/updateExamPlan.do")
+    public void updateExamPlan(ExamPlan examPlan, HttpServletResponse response) {
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+            examPlanDao.updateExamPlan(examPlan);
+            writer.print(SUCCESS);
+            writer.flush();
+            writer.close();
+        } catch (Exception e) {
+            writer.print(FAIL);
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/deleteExamPlan.do")
+    public void deleteExamPlan(Integer id,HttpServletResponse response) {
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+            examPlanDao.deleteExamPlan(examPlanDao.getExamPlanListToId(id));
+            writer.print(SUCCESS);
+            writer.flush();
+            writer.close();
+        } catch (Exception e) {
+            writer.print(FAIL);
+            e.printStackTrace();
+        }
     }
 
 }

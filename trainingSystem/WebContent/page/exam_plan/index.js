@@ -63,7 +63,7 @@
                 showExport: false,//是否显示导出按钮
                 detailView: false, //是否显示父子表
                 columns: [{
-                    field: 'id',
+                    field: 'number',
                     title: 'ID'
                 }, {
                     field: 'content',
@@ -78,7 +78,15 @@
                     field: 'percent',
                     title: '实操占比'
 
-                }],
+                }, {
+                    field: 'ID',
+                    title: '操作',
+                    width: 120,
+                    align: 'center',
+                    valign: 'middle',
+                    events: operateEvents,//给按钮注册事件
+                    formatter: operateFormatter//定义操作按钮
+                },],
                 rowStyle: function (row, index) {
                     var classesArr = ['success', 'info'];
                     var strclass = "";
@@ -95,4 +103,94 @@
 
         };
         return oTableInit;
+    }
+
+    //赋予的参数
+    function operateFormatter(value, row, index) {
+        return ['<button type="button" id="updatePlan" class="layui-btn layui-btn-sm">修改 </button><button type="button" id="deletePlan" class="layui-btn layui-btn-sm"> 删除 </button>'].join('');
+    }
+
+    window.operateEvents = {
+        'click #updatePlan': function (e, value, row, index) {
+            updatePlan(row);
+        }, 'click #deletePlan': function (e, value, row, index) {
+
+            layer.confirm('真的删除么?', {btn: ['确定', '取消'], titel: "提示"}, function () {
+                deletePlan(row);
+
+            });
+        }
+    };
+    //修改计划
+    function updatePlan(row) {
+        layer.open({
+            type: 2,
+            area: ['800px', '400px'],
+            fixed: false, //不固定
+            maxmin: true,
+            title: '修改',
+            content: 'updatePlan.jsp',
+            success: function (layero, index) {
+
+                var body = layer.getChildFrame('body', index);
+                //初始化表单数据的值
+                body.find("#id").val(row.id);
+                body.find("#content").val(row.content); //要修改的每个td的值存为变量传进去
+                body.find("#time").val(row.time);
+                body.find("#type").val(row.type);
+                body.find("#percent").val(row.percent);
+
+            }
+        });
+
+    }
+
+
+    function deletePlan(row) {
+
+        $.ajax({
+            url: "../../deleteExamPlan.do",
+            type: "post",
+            dataType: "json",
+            async: true,
+            data: {id: row.id},
+            success: function (data) {
+                if (data == 200) {
+                    layer.msg('删除成功！');
+                    $('#table').bootstrapTable('refresh');
+                } else {
+                    layer.msg('删除失败！');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("ajax请求失败");
+            }
+        });
+
+    }
+    function myUpdatePlanAction() {
+        doAjax();
+        $('#table').bootstrapTable('refresh');
+
+    }
+
+    function doAjax() {
+        var form = $("#form-updateexamplan").serialize();
+        $.ajax({
+            url: "../../updateExamPlan.do",
+            type: "post",
+            async: false,
+            data: form,
+            success: function (data) {
+                if (data == 200) {
+                    layer.msg('修改成功！');
+                } else {
+                    layer.msg('修改失败！');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("ajax请求失败");
+            }
+        });
+
     }

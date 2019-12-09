@@ -6,6 +6,7 @@ import java.util.List;
 import net.bytebuddy.implementation.bytecode.assign.primitive.PrimitiveUnboxingDelegate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -43,14 +44,11 @@ public class PersonDao
 		return list;
 	}
 
-	public List getPersonListToId(Person person) {
-		String hql="from Person p where name=p.name and sex = p.sex and height = p.height";
+	public Person getPersonListToId(Integer id) {
 		Session session = sessionFactory.openSession();
-		Query query = session.createQuery(hql);
-		List list = query.list();
-		session.close();
 
-		return list;
+		return session.get(Person.class, id);
+
 	}
 
 
@@ -65,4 +63,19 @@ public class PersonDao
     }
 
 
+	public void deletePerson(Person person) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		session.delete(person);
+		tx.commit();
+		session.close();
+	}
+
+	public void updatePerson(Person person) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		session.update(person);
+		tx.commit();
+		session.close();
+	}
 }
