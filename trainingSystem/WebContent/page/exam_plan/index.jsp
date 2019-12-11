@@ -18,7 +18,7 @@
 
 
 	<div id="toolbar"  class="toolbar"></div>
-	<table id="table" style="text-align:center"></table>
+	<table id="table" ></table>
 </body>
 
 <script type="text/javascript" src="../../resources/jquery-3.4.1.min.js"></script>
