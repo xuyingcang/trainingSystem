@@ -205,7 +205,7 @@
                 name: "单位情况",
                 id: 10,
                 pid: 3,
-                url:''
+                url:'#/team_statistics/index.jsp'
             }, 
             , {
                 name: "个人情况",

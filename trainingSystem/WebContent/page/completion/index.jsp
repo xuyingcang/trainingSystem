@@ -38,7 +38,7 @@
 	<table id="table"></table>
 
 	<div id="editPage" style="display: none;">
-		<form id="form-plan" class="layui-form-item"  method="post">
+		<form id="form-plan" class="layui-form" action="../../updatePlan.do"  method="post">
 			<input name="id" type="hidden" id="id">
 			<div class="layui-form-item">
 				<label class="layui-form-label">专业</label>
@@ -74,7 +74,7 @@
 				<label class="layui-form-label">参训人员</label>
 				<div class="layui-input-inline">
 					<select id="persons" name="persons" multiple="multiple"
-						style="width: 590px;"></select> 
+						 lay-ignore style="width: 590px;"></select> 
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -98,7 +98,8 @@
 				</div>
 				<label class="layui-form-label"></label>
 				<div class="layui-input-inline">
-                                        <button  onclick="toAjax()" class="layui-btn" >提交</button>
+                                        <!-- <button  type="submit" onclick="toAjax()" class="layui-btn" >提交</button> -->
+                                        <button  type="submit" class="layui-btn" lay-submit lay-filter="formDemo">提交</button>
                                 </div>
 			</div>
 		</form>
