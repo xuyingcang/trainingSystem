@@ -64,18 +64,28 @@
                 detailView: false, //是否显示父子表
                 columns: [{
                     field: 'number',
+                    align:"center",
+                    valign:"middle",
                     title: 'ID'
                 }, {
                     field: 'content',
+                    align:"center",
+                    valign:"middle",
                     title: '考核内容'
                 }, {
                     field: 'time',
+                    align:"center",
+                    valign:"middle",
                     title: '考核时间'
                 }, {
                     field: 'type',
+                    align:"center",
+                    valign:"middle",
                     title: '考核类型'
                 }, {
                     field: 'percent',
+                    align:"center",
+                    valign:"middle",
                     title: '实操占比'
 
                 }, {

@@ -35,6 +35,16 @@ public class MajorScore {
     @Column(name = "evaluate")
     private String evaluate;//成绩评定
 
+    private Integer number;
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
     public Integer getId() {
         return id;
     }

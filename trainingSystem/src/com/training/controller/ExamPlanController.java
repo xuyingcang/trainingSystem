@@ -109,5 +109,16 @@ public class ExamPlanController {
             e.printStackTrace();
         }
     }
+    @RequestMapping(value = "/getExamPlanToId.do")
+    public void getExamPlanToId(Integer id,HttpServletResponse response) {
+
+        ExamPlan examPlanListToId = examPlanDao.getExamPlanListToId(id);
+
+        try {
+            response.getWriter().print(examPlanListToId.getPercent());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -6,14 +6,17 @@ $(function () {
 
 });
 
+var i = -1;
+var personList = null;
+
 /*
  * “导入计划”按钮的点击事件
  * 弹出layer
  */
 function addSportScore() {
+
     name();
     plan();
-
 }
 
 
@@ -22,7 +25,7 @@ function addSportScore() {
  */
 function name() {
     //初始化select2
-    loadSelectorName("persons", "../../getPersonList.do");
+    loadSelectorName("persons", "../../getPersonListAll.do");
     index = layer.open({
         type: 1,
         area: ['1000px', '500px'],
@@ -39,10 +42,22 @@ function name() {
  * 获取本地数据初始化select2
  */
 function initSelectorName(id, data) {
-    $('#'+id).select2({
-        data: data,
+    $('#' + id).select2({
+      //  data: data,
+    //     closeOnSelect: false,
+    //     dropdownParent: $('#sports_score'),
+    // });
+    // $('#' + id).on("select2:select", function (e) {
+    //    console.log(e)
+    // });
+        placeholder : '请选择人员',
+        data : data,
         closeOnSelect: false,
         dropdownParent: $('#sports_score'),
+        language : "zh-CN",
+    });
+    $('#' + id).on("select2:select", function(e) {
+        bodyType(e);
     });
 }
 
@@ -51,13 +66,14 @@ function initSelectorName(id, data) {
  */
 function loadSelectorName(id, url) {
     $.ajax({
-        url: "../../getPersonList.do",
+        url: url,
         type: "post",
         dataType: "json",
         contentType: 'application/json;charset=utf-8',
         async: true,
         success: function (data) {
             initSelectorName(id, data);
+            personList = data;
         },
     });
 }
@@ -77,7 +93,7 @@ function plan() {
  * 获取本地数据初始化select2
  */
 function initSelectorPlan(id, data) {
-    $('#'+id).select2({
+    $('#' + id).select2({
         data: data,
         closeOnSelect: false,
         dropdownParent: $('#sports_score'),
@@ -103,25 +119,33 @@ function loadSelectorPlan(id, url) {
 /**
  * 提交点击事件
  */
-function mySportsAction(){
-    doAjax();
+function mySportsAction() {
+    if (i == -1) {
+        addAjax();
+    }
+    if (i == 1) {
+        updateAjax();
+        i = -1;
+    }
 }
-function doAjax() {
+
+function addAjax() {
     var form = $("#form-sports").serialize();
     $.ajax({
-        url : "../../addSportScore.do",
-        type : "post",
-        async : false,
-        data : form,
-        success:function(data){
-            if(data==200){
+        url: "../../addSportScore.do",
+        type: "post",
+        async: false,
+        data: form,
+        success: function (data) {
+            if (data == 200) {
                 layer.msg('添加成功！');
-            }else{
+            } else {
                 layer.msg('添加失败！');
             }
         },
-        error:function(XMLHttpRequest, textStatus, errorThrown){
-            console.log("ajax请求失败");}
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log("ajax请求失败");
+        }
     });
 
 }
@@ -132,6 +156,11 @@ function doAjax() {
  */
 function queryExamPlan() {
     $('#table').bootstrapTable('refresh');
+}
+
+
+function closeLayer() {
+    layer.close(index);
 }
 
 /*
@@ -170,46 +199,76 @@ var TableInit = function () {
             showExport: false,//是否显示导出按钮
             detailView: false, //是否显示父子表
             columns: [{
-                field: 'id',
+                field: 'number',
+                align: 'center',
+                valign: 'middle',
                 title: 'ID'
             }, {
                 field: 'person.name',
+                align: 'center',
+                valign: 'middle',
                 title: '姓名'
             }, {
                 field: 'examPlan.content',
+                align: 'center',
+                valign: 'middle',
                 title: '考核'
             }, {
                 field: 'bodyType',
+                align: 'center',
+                valign: 'middle',
                 title: '体型'
             }, {
                 field: 'pullUp',
+                align: 'center',
+                valign: 'middle',
                 title: '引体向上'
 
             }, {
                 field: 'pushUp',
+                align: 'center',
+                valign: 'middle',
                 title: '俯卧撑'
 
             }, {
                 field: 'snakeRun',
+                align: 'center',
+                valign: 'middle',
                 title: '蛇形跑'
 
             }, {
                 field: 'running',
+                align: 'center',
+                valign: 'middle',
                 title: '3千米'
 
             }, {
                 field: 'sitUp',
+                align: 'center',
+                valign: 'middle',
                 title: '仰卧起坐'
 
             }, {
                 field: 'totalScore',
+                align: 'center',
+                valign: 'middle',
                 title: '总分数'
 
             }, {
                 field: 'isPass',
+                align: 'center',
+                valign: 'middle',
                 title: '是否合格'
 
-            }],
+            }, {
+                field: 'id',
+                title: '操作',
+                width: 120,
+                align: 'center',
+                valign: 'middle',
+                events: operateEvents,//给按钮注册事件
+                formatter: operateFormatter//定义操作按钮
+            },],
             rowStyle: function (row, index) {
                 var classesArr = ['success', 'info'];
                 var strclass = "";
@@ -228,6 +287,123 @@ var TableInit = function () {
     return oTableInit;
 }
 
+//赋予的参数
+function operateFormatter(value, row, index) {
+    return ['<button type="button" id="updateSports" class="layui-btn layui-btn-sm">修改 </button><button type="button" id="deleteSports" class="layui-btn layui-btn-sm"> 删除 </button>'].join('');
+}
+
+window.operateEvents = {
+    'click #updateSports': function (e, value, row, index) {
+        updateSportsScore(row);
+
+    }, 'click #deleteSports': function (e, value, row, index) {
+        //
+        layer.confirm('真的删除么?', {btn: ['确定', '取消'], titel: "提示"}, function () {
+            deleteSportsScore(row);
+
+        });
+    }
+};
+
+/*
+ * 点击某项训练计划填报训练情况登记
+ */
+function updateSportsScore(row) {
+    i = 1;
+    loadData(row);
+    name();
+    plan();
+}
+
+/*
+ * 加载对象
+ */
+function loadData(obj) {
+    for (var item in obj) {
+        $("#" + item).val(obj[item]);//设置属性
+        if (item == "persons") {
+            persons = obj[item];
+        }
+    }
+}
+
+function deleteSportsScore(row) {
+
+    $.ajax({
+        url: "../../deleteSportsScore.do",
+        type: "post",
+        dataType: "json",
+        async: true,
+        data: {id: row.id},
+        success: function (data) {
+            if (data == 200) {
+                layer.msg('删除成功！');
+                $('#table').bootstrapTable('refresh');
+            } else {
+                layer.msg('删除失败！');
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log("ajax请求失败");
+        }
+    });
+
+}
 
 
+function updateAjax() {
+    var form = $("#form-sports").serialize();
+    $.ajax({
+        url: "../../updateSportsScore.do",
+        type: "post",
+        async: false,
+        data: form,
+        success: function (data) {
+            if (data == 200) {
+                layer.msg('修改成功！');
+            } else {
+                layer.msg('修改失败！');
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log("ajax请求失败");
+        }
+    });
 
+}
+
+function initBodyType() {
+    $.ajax({
+        url: "../../gtePersonToBodyType.do",
+        type: "post",
+        dataType: "text",
+        async: true,
+        data: {id: $("#persons").val()},
+        success: function (result) {
+            $("#bodyType").val(result);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log("ajax请求失败");
+        }
+    });
+
+
+}
+
+function inittotalScore() {
+    $.ajax({
+        url: "../../gtePersonToTotalScore.do",
+        type: "post",
+        dataType: "text",
+        async: true,
+        data: {id: $("#persons").val(), number: $("#pullUp").val()},
+        success: function (results) {
+            alert(results);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log("ajax请求失败");
+        }
+    });
+
+
+}

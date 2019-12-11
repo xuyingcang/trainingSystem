@@ -2,7 +2,7 @@ $(function () {
     //2.初始化Table
     var oTable = new TableInit();
     oTable.Init();
-    layui.use('form', function(){
+    layui.use('form', function () {
         var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
         var layer = layui.layer;
         //……
@@ -73,36 +73,58 @@ var TableInit = function () {
             detailView: false, //是否显示父子表
             columns: [{
                 field: 'number',
+                align: 'center',
+                valign: 'middle',
                 title: 'ID'
             }, {
                 field: 'name',
+                align: 'center',
+                valign: 'middle',
                 title: '姓名'
             }, {
                 field: 'sex',
+                align: 'center',
+                valign: 'middle',
                 title: '性别'
             }, {
                 field: 'age',
+                align: 'center',
+                valign: 'middle',
                 title: '年龄'
             }, {
                 field: 'height',
+                align: 'center',
+                valign: 'middle',
                 title: '身高'
             }, {
                 field: 'weight',
+                align: 'center',
+                valign: 'middle',
                 title: '体重'
             }, {
                 field: 'person_type',
+                align: 'center',
+                valign: 'middle',
                 title: '人员类别'
             }, {
                 field: 'military_rank',
+                align: 'center',
+                valign: 'middle',
                 title: '军衔'
             }, {
                 field: 'duty',
+                align: 'center',
+                valign: 'middle',
                 title: '职务'
             }, {
                 field: 'profession',
+                align: 'center',
+                valign: 'middle',
                 title: '专业'
             }, {
                 field: 'training_type',
+                align: 'center',
+                valign: 'middle',
                 title: '训练类型'
             }, {
                 field: 'ID',
@@ -138,7 +160,7 @@ function operateFormatter(value, row, index) {
 
 window.operateEvents = {
     'click #updatePerson': function (e, value, row, index) {
-      updatePerson(row);
+        updatePerson(row);
 
     }, 'click #deletePerson': function (e, value, row, index) {
         //
@@ -185,13 +207,13 @@ function formatDate(now) {
     var hour = now.getHours();     //返回日期中的小时数（0到23）
     var minute = now.getMinutes(); //返回日期中的分钟数（0到59）
     var second = now.getSeconds(); //返回日期中的秒数（0到59）
-    return year + "-" + month + "-" + date ;
+    return year + "-" + month + "-" + date;
 }
 
 function deletePerson(row) {
 
     $.ajax({
-        url: "../../deletePsername.do",
+        url: "../../deletePserson.do",
         type: "post",
         dataType: "json",
         async: true,
@@ -220,7 +242,7 @@ function myUpdatePersonAction() {
 function doAjax() {
     var form = $("#form-updateperson").serialize();
     $.ajax({
-        url: "../../updatePsername.do",
+        url: "../../updatePserson.do",
         type: "post",
         async: false,
         data: form,

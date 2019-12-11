@@ -5,12 +5,14 @@ $(function () {
     var layer = layui.layer;
 
 });
+var i = -1;
 
 /*
  * “导入计划”按钮的点击事件
  * 弹出layer
  */
 function addSportScore() {
+    i = 1;
     name();
     plan();
 
@@ -20,25 +22,35 @@ function addSportScore() {
  * 表单提交的点击事件
  */
 function myMajorAction() {
-    doAjax();
+    if (i == 1) {
+
+        doAjax();
+        i = -1;
+    }
+    if (i == 2) {
+
+        updateAjax();
+        i = -1;
+    }
 }
 
 function doAjax() {
     var form = $("#form-major").serialize();
     $.ajax({
-        url : "../../addMAjorScore.do",
-        type : "post",
-        async : false,
-        data : form,
-        success:function(data){
-            if(data==200){
+        url: "../../addMAjorScore.do",
+        type: "post",
+        async: false,
+        data: form,
+        success: function (data) {
+            if (data == 200) {
                 layer.msg('添加成功！');
-            }else{
+            } else {
                 layer.msg('添加失败！');
             }
         },
-        error:function(XMLHttpRequest, textStatus, errorThrown){
-            console.log("ajax请求失败");}
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log("ajax请求失败");
+        }
     });
 
 }
@@ -56,7 +68,7 @@ function name() {
         maxmin: true,
         zIndex: 1001,
         title: '考核成绩',
-        content:$('#major_score') ,
+        content: $('#major_score'),
     });
 }
 
@@ -65,7 +77,7 @@ function name() {
  * 获取本地数据初始化select2
  */
 function initSelectorName(id, data) {
-    $('#'+id).select2({
+    $('#' + id).select2({
         data: data,
         closeOnSelect: false,
         dropdownParent: $('#major_score'),
@@ -103,7 +115,7 @@ function plan() {
  * 获取本地数据初始化select2
  */
 function initSelectorPlan(id, data) {
-    $('#'+id).select2({
+    $('#' + id).select2({
         data: data,
         closeOnSelect: false,
         dropdownParent: $('#major_score'),
@@ -170,30 +182,52 @@ var TableInit = function () {
             showExport: false,//是否显示导出按钮
             detailView: false, //是否显示父子表
             columns: [{
-                field: 'id',
+                field: 'number',
+                align: 'center',
+                valign: 'middle',
                 title: 'ID'
             }, {
                 field: 'person.name',
+                align: 'center',
+                valign: 'middle',
                 title: '姓名'
             }, {
                 field: 'examPlan.content',
+                align: 'center',
+                valign: 'middle',
                 title: '考核'
             }, {
                 field: 'operation',
+                align: 'center',
+                valign: 'middle',
                 title: '实操成绩'
             }, {
                 field: 'theory',
+                align: 'center',
+                valign: 'middle',
                 title: '理论成绩'
 
             }, {
                 field: 'totalScore',
+                align: 'center',
+                valign: 'middle',
                 title: '总成绩'
 
             }, {
                 field: 'evaluate',
+                align: "center",
+                valign: "middle",
                 title: '成绩评定'
 
-            }],
+            }, {
+                field: 'id',
+                title: '操作',
+                width: 120,
+                align: 'center',
+                valign: 'middle',
+                events: operateEvents,//给按钮注册事件
+                formatter: operateFormatter//定义操作按钮
+            },],
             rowStyle: function (row, index) {
                 var classesArr = ['success', 'info'];
                 var strclass = "";
@@ -212,6 +246,117 @@ var TableInit = function () {
     return oTableInit;
 }
 
+//赋予的参数
+function operateFormatter(value, row, index) {
+    return ['<button type="button" id="updateMajor" class="layui-btn layui-btn-sm">修改 </button><button type="button" id="deleteMajor" class="layui-btn layui-btn-sm"> 删除 </button>'].join('');
+}
+
+window.operateEvents = {
+    'click #updateMajor': function (e, value, row, index) {
+        updateMajorScore(row);
+
+    }, 'click #deleteMajor': function (e, value, row, index) {
+        //
+        layer.confirm('真的删除么?', {btn: ['确定', '取消'], titel: "提示"}, function () {
+            deleteMajorScore(row);
+
+        });
+    }
+};
 
 
+/*
+ * 点击某项训练计划填报训练情况登记
+ */
+function updateMajorScore(row) {
+    i = 2;
+    loadData(row);
+    name();
+    plan();
+}
 
+function closeLayer() {
+    layer.close(index);
+}
+
+/*
+ * 加载对象
+ */
+function loadData(obj) {
+    for (var item in obj) {
+        $("#" + item).val(obj[item]);//设置属性
+        if (item == "persons") {
+            persons = obj[item];
+        }
+    }
+}
+
+function deleteMajorScore(row) {
+
+    $.ajax({
+        url: "../../deleteMajorScore.do",
+        type: "post",
+        dataType: "json",
+        async: true,
+        data: {id: row.id},
+        success: function (data) {
+            if (data == 200) {
+                layer.msg('删除成功！');
+                $('#table').bootstrapTable('refresh');
+            } else {
+                layer.msg('删除失败！');
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log("ajax请求失败");
+        }
+    });
+
+}
+
+
+function updateAjax() {
+    var form = $("#form-major").serialize();
+    $.ajax({
+        url: "../../updateMajorScore.do",
+        type: "post",
+        async: false,
+        data: form,
+        success: function (data) {
+            if (data == 200) {
+                layer.msg('修改成功！');
+            } else {
+                layer.msg('修改失败！');
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log("ajax请求失败");
+        }
+    });
+
+}
+
+
+/**
+ * 计算总成绩和成绩评定的点击事件
+ */
+function majorBlur() {
+
+    $.ajax({
+        url: "../../getExamPlanToId.do",
+        type: "post",
+        dataType: "json",
+        async: true,
+        data: {id: $("#plan").val()},
+        success: function (data) {
+            var operation = $("#operation").val();
+            var theory = $("#theory").val();
+            var totalScore = $("#totalScore").val((operation * data + (100 - data) * theory) / 100);
+
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log("ajax请求失败");
+        }
+    });
+
+}

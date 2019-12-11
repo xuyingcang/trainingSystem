@@ -2,8 +2,11 @@ package com.training.controller;
 
 import com.training.dao.PersonDao;
 import com.training.dao.SportsScoreDao;
+import com.training.entity.Person;
 import com.training.entity.SportsScore;
 import org.apache.commons.beanutils.BeanUtils;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,10 +52,42 @@ public class SportsScoreController {
         List<SportsScore> sportsScore = sportsScoreDao.getSportsScore();
         int i = 1;
         for (SportsScore score : sportsScore) {
-           score.setId(i++);
+           score.setNumber(i++);
         }
 
         return sportsScore;
 
+    }
+    @RequestMapping(value = "/deleteSportsScore.do")
+    public void deleteSportsScore(Integer id,HttpServletResponse response) {
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+            sportsScoreDao.deleteSportsScore(sportsScoreDao.getSportsScoreListToId(id));
+            writer.print(SUCCESS);
+            writer.flush();
+            writer.close();
+        } catch (Exception e) {
+            writer.print(FAIL);
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+    @RequestMapping(value = "/updateSportsScore.do")
+    public void updateSportsScore(SportsScore sportsScore, HttpServletResponse response) {
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+            sportsScoreDao.updateSportsScore(sportsScore);
+            writer.print(SUCCESS);
+            writer.flush();
+            writer.close();
+        } catch (Exception e) {
+            writer.print(FAIL);
+            e.printStackTrace();
+        }
     }
 }
