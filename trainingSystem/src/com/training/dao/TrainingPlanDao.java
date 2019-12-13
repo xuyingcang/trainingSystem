@@ -54,6 +54,13 @@ public class TrainingPlanDao
 		jt.execute(sql);
 	}
 	
+	/**
+	 * 获取时间段内的训练计划
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 * @throws ParseException
+	 */
 	public List getPlanList(String startTime, String endTime) throws ParseException
 	{
 		Timestamp start, end;
@@ -82,4 +89,22 @@ public class TrainingPlanDao
 		return list;
 	}
 
+	/**
+	 * 获取时间段内未完成的训练计划
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 * @throws ParseException
+	 */
+	public List getUnfinishedPlanList(Timestamp startTime, Timestamp endTime) throws ParseException
+	{
+		String hql = "from TrainingPlan where  startTime >= :start and startTime <= :end and completion is null  order by startTime asc";
+		Session session = sessionFactory.openSession();
+		Query query = session.createQuery(hql);
+		query.setParameter("start", startTime);
+		query.setParameter("end", endTime);
+		List<TrainingPlan> list = query.list();
+		session.close();
+		return list;
+	}
 }

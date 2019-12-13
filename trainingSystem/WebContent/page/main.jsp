@@ -14,45 +14,49 @@
     <div id="traininghours"  style="width: 500px;height:350px;float: left;"></div>
     <div id="QualifiedRate"  style="width: 500px;height:350px;float: left;"></div>
     <div id="historyRecord"  style="width: 400px;height:250px;">
-        <div>历史最佳成绩</div>
+        <div><h4>历史最佳成绩</h4></div>
         <table class="table table-hover" style="width: 100%">
                 <tr>
-                        <th style="width: 40%">项目</th>
-                        <td style="width: 30%">最佳成绩</td>
-                         <td style="width: 30%">记录保持者</td>
+                        <th style="width: 40%" align="center">项目</th>
+                        <td style="width: 30%" align="center">最佳成绩</td>
+                         <td style="width: 30%" align="center">记录保持者</td>
                 </tr>
-                <tr>
-                        <th>3000M长跑</th>
-                        <td id="">12分10秒</td>
-                         <td>a</td>
+                <tr style="height: 20px;vertical-align: middle;">
+                        <th>3KM长跑</th>
+                        <td id="running-record" align="center"></td>
+                         <td id="running-keeper" align="center"></td>
                 </tr>
-                <tr style="height: 25px;">
+                <tr style="height: 20px;vertical-align: middle;">
                         <th>引体向上</th>
-                        <td>18</td>
-                         <td>a</td>
+                       <td id="pullUp-record" align="center"></td>
+                         <td id="pullUp-keeper" align="center"></td>
                 </tr>
-                <tr>
+                <tr style="height: 20px;vertical-align: middle;">
                         <th>俯卧撑</th>
-                        <td>50</td>
-                         <td>2</td>
-                </tr><tr>
-                        <th>双臂悬垂</th>
-                        <td>45秒</td>
-                         <td>2</td>
-                </tr><tr>
-                        <th>仰卧起坐</th>
-                        <td>88</td>
-                         <td>a</td>
+                        <td id="pushUp-record" align="center"></td>
+                         <td id="pushUp-keeper" align="center"></td>
                 </tr>
-                </tr><tr>
+                <tr style="height: 20px;vertical-align: middle;">
+                        <th>双臂悬垂</th>
+                        <td id="hang-record" align="center"></td>
+                         <td id="hang-keeper" align="center"></td>
+                </tr>
+                <tr style="height: 20px;vertical-align: middle;">
+                        <th>仰卧起坐</th>
+                       <td id="sitUp-record" align="center"></td>
+                         <td id="sitUp-keeper" align="center"></td>
+                </tr>
+                </tr>
+                <tr style="height: 20px;vertical-align: middle;">
                         <th>蛇形跑</th>
-                        <td>17.88秒</td>
-                         <td>a</td>
+                        <td id="snakeRun-record" align="center"></td>
+                         <td id="snakeRun-keeper" align="center"></td>
                 </tr>
         </table>
     </div>
-    <div id="ExcellentPerson"  style="width: 400px;height:250px;float: right;">
-        <div>优秀训练个人</div>
+    <div id="ExcellentPerson"  style="width: 600px;height:250px;float: right;">
+        <div><h4>本周未完成计划</h4></div>
+        <table id="table"></table>
     </div>
 </body>
 <script type="text/javascript" src="../resources/jquery-3.4.1.min.js"></script>

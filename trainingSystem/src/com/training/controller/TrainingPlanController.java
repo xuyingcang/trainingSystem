@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.training.dao.PersonDao;
 import com.training.dao.TrainingPlanDao;
 import com.training.entity.TrainingPlan;
+import com.training.util.CalendarUtil;
 
 
 @Controller
@@ -62,6 +64,18 @@ public class TrainingPlanController
 	private List getPlanByWeek(@RequestParam(value = "startTime")String startTime,@RequestParam(value = "endTime")String endTime) throws ParseException {
 		List<TrainingPlan> list=null;
 		list=(ArrayList<TrainingPlan>) trainingPlanDao.getPlanList(startTime,endTime);
+		return list;
+		
+	}
+	
+	@RequestMapping(value="/getUnfinishedPlans.do",produces={"application/json; charset=UTF-8"})	
+	@ResponseBody
+	private List getUnfinishedPlans() throws ParseException {
+		List<TrainingPlan> list=null;
+		java.util.Date now=new Date(System.currentTimeMillis());
+		java.util.Date start=CalendarUtil.getStartTimeAtWeek(now);
+		java.util.Date end=CalendarUtil.getEndTimeAtWeek(now);
+		list=trainingPlanDao.getUnfinishedPlanList(new Timestamp(start.getTime()),new Timestamp(end.getTime()));
 		return list;
 		
 	}
