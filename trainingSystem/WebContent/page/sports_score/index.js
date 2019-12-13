@@ -3,6 +3,28 @@ $(function () {
     var oTable = new TableInit();
     oTable.Init();
     var layer = layui.layer;
+    var laydate = layui.laydate;
+    //时间选择器
+    laydate.render({
+        elem: '#running',
+        type: 'time',
+        format: 'mm:ss'
+        ,done: function(value, date, endDate){
+            $("#running").val(value);
+            MyrunningScore();
+        }
+    });
+
+    laydate.render({
+        elem: '#hang',
+        type: 'time',
+        format: 'mm:ss',
+        done: function(value, date, endDate){
+            $("#hang").val(value);
+
+            MyhangScore();
+        }
+    });
 
 });
 
@@ -43,22 +65,23 @@ function name() {
  */
 function initSelectorName(id, data) {
     $('#' + id).select2({
-      //  data: data,
-    //     closeOnSelect: false,
-    //     dropdownParent: $('#sports_score'),
-    // });
-    // $('#' + id).on("select2:select", function (e) {
-    //    console.log(e)
-    // });
-        placeholder : '请选择人员',
-        data : data,
+
+        placeholder: '请选择人员',
+        data: data,
         closeOnSelect: false,
         dropdownParent: $('#sports_score'),
-        language : "zh-CN",
+        language: "zh-CN",
+
     });
-    $('#' + id).on("select2:select", function(e) {
+
+    $('#' + id).on("select2:select", function (e) {
+        show_input(e);
         bodyType(e);
+
     });
+
+    $("#persons").val(personId).trigger('change');
+    $("#plan").val(planId).trigger('change');
 }
 
 /*
@@ -94,10 +117,13 @@ function plan() {
  */
 function initSelectorPlan(id, data) {
     $('#' + id).select2({
+        placeholder: '请选择计划',
         data: data,
         closeOnSelect: false,
         dropdownParent: $('#sports_score'),
     });
+
+
 }
 
 /*
@@ -130,6 +156,7 @@ function mySportsAction() {
 }
 
 function addAjax() {
+    itemList();
     var form = $("#form-sports").serialize();
     $.ajax({
         url: "../../addSportScore.do",
@@ -150,6 +177,24 @@ function addAjax() {
 
 }
 
+/**
+ * 整合表单提交的数据
+ */
+function itemList() {
+
+    //曲臂悬垂
+    var hangArray = $("#hang").val().split(":");
+    $("#hangmm").val(hangArray[0]);
+    $("#hangss").val(hangArray[1]);
+    //三公里
+    var runningArray = $("#running").val().split(":");
+    $("#runningScoremm").val(runningArray[0]);
+    $("#runningScoress").val(runningArray[1]);
+    //蛇形跑
+    var snakeRunArray = $("#snakeRun").val().split(":");
+    $("#snakeRunScoremm").val(snakeRunArray[0]);
+    $("#snakeRunScorems").val(snakeRunArray[1]);
+}
 
 /**
  * 查询
@@ -223,6 +268,12 @@ var TableInit = function () {
                 align: 'center',
                 valign: 'middle',
                 title: '引体向上'
+
+            }, {
+                field: 'hang',
+                align: 'center',
+                valign: 'middle',
+                title: '曲臂悬垂'
 
             }, {
                 field: 'pushUp',
@@ -304,15 +355,17 @@ window.operateEvents = {
         });
     }
 };
-
+var personId,planId;
 /*
  * 点击某项训练计划填报训练情况登记
  */
 function updateSportsScore(row) {
     i = 1;
-    loadData(row);
+    personId=row.person.id;
+    planId=row.examPlan.id;
     name();
     plan();
+    loadData(row);
 }
 
 /*
@@ -325,6 +378,7 @@ function loadData(obj) {
             persons = obj[item];
         }
     }
+
 }
 
 function deleteSportsScore(row) {
@@ -372,38 +426,4 @@ function updateAjax() {
 
 }
 
-function initBodyType() {
-    $.ajax({
-        url: "../../gtePersonToBodyType.do",
-        type: "post",
-        dataType: "text",
-        async: true,
-        data: {id: $("#persons").val()},
-        success: function (result) {
-            $("#bodyType").val(result);
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            console.log("ajax请求失败");
-        }
-    });
 
-
-}
-
-function inittotalScore() {
-    $.ajax({
-        url: "../../gtePersonToTotalScore.do",
-        type: "post",
-        dataType: "text",
-        async: true,
-        data: {id: $("#persons").val(), number: $("#pullUp").val()},
-        success: function (results) {
-            alert(results);
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            console.log("ajax请求失败");
-        }
-    });
-
-
-}

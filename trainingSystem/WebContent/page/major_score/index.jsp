@@ -30,6 +30,7 @@
                 <label class="layui-form-label">计划</label>
                 <div class="layui-input-inline">
                     <select id="plan" name="examPlan.id"  lay-ignore style=" height: 35px;width:190px;border-color: #D2D2D2">
+                        <option id=""></option>
                     </select>
                 </div>
             </div>
@@ -37,6 +38,8 @@
                 <label class="layui-form-label">姓名</label>
                 <div class="layui-input-inline">
                     <select id="persons" name="person.id"  lay-ignore style=" width:190px;border-color: #D2D2D2">
+                        <option id=" "></option>
+
                     </select>
                 </div>
             </div>
