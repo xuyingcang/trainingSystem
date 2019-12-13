@@ -27,7 +27,7 @@ public class PersonDao
 	 */
 	public List getPersonList(String type) throws ParseException
 	{
-		String hql = "from Person order by name asc";
+		String hql = "from Person order by id asc";
 		Session session = sessionFactory.openSession();
 		Query query = session.createQuery(hql);
 		List<Person> list = query.list();

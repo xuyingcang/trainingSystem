@@ -31,7 +31,7 @@ public class ExamPlanDao {
     }
 
     public List getExamPlan(){
-        String hql = "from ExamPlan order by id asc";
+        String hql = "from ExamPlan order by time asc";
         Session session = sessionFactory.openSession();
         Query query = session.createQuery(hql);
         List<ExamPlan> list = query.list();

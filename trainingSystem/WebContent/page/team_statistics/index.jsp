@@ -10,7 +10,8 @@
 </head>
 <body>
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-    <div id="main"  style="width: 600px;height:400px;"></div>
+    <div id="traininghours"  style="width: 500px;height:350px;float: left;"></div>
+    <div id="QualifiedRate"  style="width: 500px;height:350px;float: left;"></div>
 </body>
 <script type="text/javascript" src="../../resources/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../../resources/echarts/echarts.min.js"></script>

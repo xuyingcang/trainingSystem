@@ -60,4 +60,29 @@ public class MajorScoreDao {
         tx.commit();
         session.close();
     }
+    
+    public List<MajorScore> getPersonMajorScore(Integer id){
+	        Session session = sessionFactory.openSession();
+	        String hql = "from MajorScore where person.id=:id order by examPlan.time asc";
+	        Query query = session.createQuery(hql);
+		query.setParameter("id", id);
+	        List list = query.list();
+	        session.close();
+	        return list;
+    }
+    
+    /**
+     * 获取某次考试所有人的专业考核成绩
+     * @param id
+     * @return
+     */
+    public List<MajorScore> getMajorScoreByExam(Integer id){
+	        Session session = sessionFactory.openSession();
+	        String hql = "from MajorScore where examPlan.id=:id order by person.id asc";
+	        Query query = session.createQuery(hql);
+	        query.setParameter("id", id);
+	        List list = query.list();
+	        session.close();
+	        return list;
+    }
 }

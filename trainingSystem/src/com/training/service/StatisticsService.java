@@ -12,7 +12,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.training.dao.ExamPlanDao;
+import com.training.dao.MajorScoreDao;
+import com.training.dao.SportsScoreDao;
 import com.training.dao.StatisticsDao;
+import com.training.entity.ExamPlan;
+import com.training.entity.MajorScore;
+import com.training.entity.SportsScore;
 import com.training.util.CalendarUtil;
 
 @Repository
@@ -20,6 +26,12 @@ public class StatisticsService
 {
 	@Autowired 
 	StatisticsDao statisticsDao;
+	@Autowired 
+	MajorScoreDao majorScoreDao;
+	@Autowired 
+	SportsScoreDao sportsScoreDao;
+	@Autowired 
+	ExamPlanDao examPlanDao;
 	
 	/**
 	 * 获取当前日期之前12个月每月的训练时长数据
@@ -82,4 +94,62 @@ public class StatisticsService
 		map.put("hours", hoursList);
 		return map;
 	}
+	
+	/**
+	 * 获取单位历次考核的成绩（包括专业和体能）
+	 * @return
+	 */
+	public Map getTeamQualifiedRate() {
+		List<ExamPlan> examPlanList=examPlanDao.getExamPlan();//获取所有考试计划
+		List<String> timeList=new ArrayList<String>();//考试计划的时间序列
+		List<Double> majorScoreRateList=new ArrayList<Double>();//获取的单次考核所有人的专业成绩列表
+		List<Double> sportsScoreRateList=new ArrayList<Double>();//获取的单次考核所有人的体能成绩列表
+		
+		for (ExamPlan examPlan : examPlanList)
+		{
+			Double majorScoreRate=0.0;
+			Double sportsScoreRate=0.0;
+			List<MajorScore> majorScoreList=majorScoreDao.getMajorScoreByExam(examPlan.getId());
+			double count=0;
+			if(!majorScoreList.isEmpty()) {
+				for (MajorScore majorScore : majorScoreList)
+				{
+					if(majorScore.getEvaluate().equals("不合格")) {
+						count++;
+					}
+				}
+				majorScoreRate=1-(count/majorScoreList.size());//计算合格率
+			}
+			List<SportsScore> sportsScoreList=sportsScoreDao.getSportsScoreByExam(examPlan.getId());
+			count=0;
+			if(!majorScoreList.isEmpty()) {
+				for (SportsScore sportsScore : sportsScoreList)
+				{
+					if(sportsScore.getIsPass().equals("不合格")) {
+						count++;
+					}
+				}
+				sportsScoreRate=1-(count/sportsScoreList.size());//计算合格率
+			}
+			//将单次考核成绩存入各自列表中
+			timeList.add(examPlan.getTime());
+			majorScoreRateList.add(majorScoreRate);
+			sportsScoreRateList.add(sportsScoreRate);
+		}
+		Map<String,List> map=new HashMap<String, List>();
+		map.put("time", timeList);
+		map.put("major", majorScoreRateList);
+		map.put("sports", sportsScoreRateList);
+		return map;
+	}
+	
+	/**
+	 * 获取军事体育的历史最好成绩
+	 * @return
+	 */
+	public Map getHistoryRecords() {
+		
+		return null;
+	}
+	
 }

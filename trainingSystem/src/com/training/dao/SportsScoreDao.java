@@ -35,6 +35,21 @@ public class SportsScoreDao {
         session.close();
         return list;
     }
+    
+    /**
+     * 获取某次考试所有人的体育成绩
+     * @param id
+     * @return
+     */
+    public List<SportsScore> getSportsScoreByExam(Integer id){
+	        Session session = sessionFactory.openSession();
+	        String hql = "from SportsScore where examPlan.id=:id order by person.id asc";
+	        Query query = session.createQuery(hql);
+	        query.setParameter("id", id);
+	        List list = query.list();
+	        session.close();
+	        return list;
+    }
 
     public SportsScore getSportsScoreListToId(Integer id) {
 

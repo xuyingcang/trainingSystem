@@ -8,7 +8,7 @@ $(function() {
 
 function initChart1(){
 	$.ajax({
-		url : "../../getHoursLast12Month.do",
+		url : "../getHoursLast12Month.do",
 		type : "get",
 		//dataType : "json",
 		contentType : 'application/json;charset=utf-8',
@@ -41,7 +41,7 @@ function initChart1(){
 
 function initChart2(){
 	$.ajax({
-		url : "../../getTeamQualifiedRate.do",
+		url : "../getTeamQualifiedRate.do",
 		type : "get",
 		//dataType : "json",
 		contentType : 'application/json;charset=utf-8',
