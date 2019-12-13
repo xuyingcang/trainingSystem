@@ -1,6 +1,5 @@
 package com.training.entity;
 
-import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
 
 import javax.persistence.*;
 

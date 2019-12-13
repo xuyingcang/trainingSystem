@@ -23,10 +23,10 @@
                 </tr>
                 <tr>
                         <th>3000M长跑</th>
-                        <td>12分10秒</td>
+                        <td id="">12分10秒</td>
                          <td>a</td>
                 </tr>
-                <tr>
+                <tr style="height: 25px;">
                         <th>引体向上</th>
                         <td>18</td>
                          <td>a</td>

@@ -4,6 +4,7 @@ var chart2 = echarts.init(document.getElementById('QualifiedRate'));
 $(function() {
 	initChart1();
 	initChart2();
+	getHistoryRecords();
 });
 
 function initChart1(){
@@ -78,6 +79,19 @@ function initChart2(){
 
 				// 使用刚指定的配置项和数据显示图表。
 			chart2.setOption(option);
+		},
+	});
+}
+
+function getHistoryRecords(){
+	$.ajax({
+		url : "../getHistoryRecords.do",
+		type : "get",
+		//dataType : "json",
+		contentType : 'application/json;charset=utf-8',
+		async : true,
+		success : function(data) {
+			console.log(data);
 		},
 	});
 }

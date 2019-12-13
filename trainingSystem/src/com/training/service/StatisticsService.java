@@ -148,8 +148,46 @@ public class StatisticsService
 	 * @return
 	 */
 	public Map getHistoryRecords() {
-		
-		return null;
+		List<SportsScore> sportsScoreList=sportsScoreDao.getSportsScore();
+		SportsScore mostPullUp=sportsScoreList.get(0);//引体向上
+		SportsScore mostHang=sportsScoreList.get(0);//曲臂悬垂
+		SportsScore mostPushUp=sportsScoreList.get(0);//俯卧撑
+		SportsScore mostSnakeRun=sportsScoreList.get(0);//蛇形跑
+		SportsScore mostRunning=sportsScoreList.get(0);//3km
+		SportsScore mostSitUP=sportsScoreList.get(0);//仰卧起坐
+		//比较得到各项目的最佳成绩
+		for (SportsScore sportsScore : sportsScoreList)
+		{
+			if(sportsScore.getPullUp()>mostPullUp.getPullUp()){
+				mostPullUp=sportsScore;
+			}
+			if((sportsScore.getHangmm()*60+sportsScore.getHangss())
+					>(mostHang.getHangmm()*60+mostHang.getHangss())){
+				mostHang=sportsScore;
+			}
+			if(sportsScore.getPushUp()>mostPushUp.getPushUp()){
+				mostPushUp=sportsScore;
+			}
+			if((sportsScore.getSnakeRunScoremm()*100+sportsScore.getSnakeRunScorems())
+					<(mostSnakeRun.getSnakeRunScoremm()*100+mostSnakeRun.getSnakeRunScorems())){
+				mostSnakeRun=sportsScore;
+			}
+			if((sportsScore.getRunningScoremm()*60+sportsScore.getRunningScoress())
+					<mostRunning.getRunningScoremm()*60+mostRunning.getRunningScoress()){
+				mostRunning=sportsScore;
+			}
+			if(sportsScore.getSitUp()>mostSitUP.getSitUp()){
+				mostSitUP=sportsScore;
+			}
+		}
+		Map<String,SportsScore> map=new HashMap<String, SportsScore>();
+		map.put("pullUp", mostPullUp);
+		map.put("hang", mostHang);
+		map.put("pushUp", mostPushUp);
+		map.put("snakeRun", mostSnakeRun);
+		map.put("running", mostRunning);
+		map.put("sitUp", mostSitUP);
+		return map;
 	}
 	
 }

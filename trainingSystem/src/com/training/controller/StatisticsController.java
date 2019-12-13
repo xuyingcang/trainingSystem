@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.training.dao.MajorScoreDao;
 import com.training.dao.StatisticsDao;
 import com.training.entity.MajorScore;
+import com.training.entity.SportsScore;
 import com.training.service.StatisticsService;
 
 @Controller
@@ -103,6 +104,25 @@ public class StatisticsController
 		try
 		{
 			Map<String,List> map=statisticsService.getHoursEveryWeek(id,new Date(System.currentTimeMillis()));
+			return map;
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * 获取军事体育的历史最好成绩
+	 * @param id
+	 * @param response
+	 */
+	@RequestMapping(value="/getHistoryRecords.do",produces={"application/json; charset=UTF-8"})
+	@ResponseBody
+	private Map getHistoryRecords() {
+		try
+		{
+			Map<String,SportsScore> map=statisticsService.getHistoryRecords();
 			return map;
 		} catch (Exception e)
 		{
