@@ -5,6 +5,7 @@ import com.training.dao.SportsScoreDao;
 import com.training.entity.Person;
 import com.training.entity.SportsScore;
 import org.apache.commons.beanutils.BeanUtils;
+import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,14 @@ import java.util.Map;
 public class SportsScoreController {
 
 
-    public static final int SUCCESS=200;
-    public static final int FAIL=400;
+    public static final int SUCCESS = 200;
+    public static final int FAIL = 400;
 
     @Autowired
     SportsScoreDao sportsScoreDao;
 
     @RequestMapping(value = "/addSportScore.do")
-    public void addSportScore(SportsScore sportsScore,HttpServletResponse response)  {
+    public void addSportScore(SportsScore sportsScore, HttpServletResponse response) {
 
         PrintWriter writer = null;
         try {
@@ -48,18 +49,32 @@ public class SportsScoreController {
 
     @RequestMapping(value = "/getSportScore.do", produces = {"application/json; charset=UTF-8"})
     @ResponseBody
-    public List getSportScore(){
+    public List getSportScore() {
         List<SportsScore> sportsScore = sportsScoreDao.getSportsScore();
         int i = 1;
         for (SportsScore score : sportsScore) {
-           score.setNumber(i++);
+            score.setNumber(i++);
+            if (score.getHang()!= null){
+
+                score.setHang((score.getHang().toString()).replace(":","分"));//曲臂悬挂
+            }
+            if (score.getRunning() != null) {
+
+                score.setRunning((score.getRunning().toString()).replace(":","分"));//三公里
+            }
+            if (score.getSnakeRun() != null) {
+
+                score.setSnakeRun((score.getSnakeRun().toString()).replace(":","分"));
+            }
+
         }
 
         return sportsScore;
 
     }
+
     @RequestMapping(value = "/deleteSportsScore.do")
-    public void deleteSportsScore(Integer id,HttpServletResponse response) {
+    public void deleteSportsScore(Integer id, HttpServletResponse response) {
         PrintWriter writer = null;
         try {
             writer = response.getWriter();
@@ -72,8 +87,6 @@ public class SportsScoreController {
             e.printStackTrace();
         }
     }
-
-
 
 
     @RequestMapping(value = "/updateSportsScore.do")

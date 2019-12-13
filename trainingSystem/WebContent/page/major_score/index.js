@@ -78,10 +78,15 @@ function name() {
  */
 function initSelectorName(id, data) {
     $('#' + id).select2({
+        placeholder: '请选择人员',
         data: data,
         closeOnSelect: false,
         dropdownParent: $('#major_score'),
+        language: "zh-CN",
+
     });
+    $("#persons").val(personId).trigger('change');
+    $("#plan").val(planId).trigger('change');
 }
 
 /*
@@ -116,9 +121,12 @@ function plan() {
  */
 function initSelectorPlan(id, data) {
     $('#' + id).select2({
+        placeholder: '请选择人员',
         data: data,
         closeOnSelect: false,
         dropdownParent: $('#major_score'),
+        language: "zh-CN",
+
     });
 }
 
@@ -264,11 +272,13 @@ window.operateEvents = {
     }
 };
 
-
+var personId,planId;
 /*
  * 点击某项训练计划填报训练情况登记
  */
 function updateMajorScore(row) {
+    personId=row.person.id;
+    planId=row.examPlan.id;
     i = 2;
     loadData(row);
     name();

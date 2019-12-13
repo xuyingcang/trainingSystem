@@ -1,5 +1,7 @@
 package com.training.entity;
 
+import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
+
 import javax.persistence.*;
 
 
@@ -9,7 +11,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "sports_Score")
-//（id、人员、考核计划、体型、单杠、俯卧撑、蛇形跑、3公里、仰卧起坐、总成绩、是否合格）
+//（id、人员、考核计划、体型、单杠、俯卧撑、蛇形跑、3公里、仰卧起坐、总成绩、是否合格、曲臂悬垂、
+//单杠成绩、俯卧撑成绩、三公里成绩、仰卧起坐成绩、曲臂悬垂成绩、蛇形跑成绩、曲臂悬垂分、秒、三公里分、秒
+//蛇形跑秒、毫秒
 public class SportsScore {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,26 +31,66 @@ public class SportsScore {
     @Column(name = "body_type")
     private String bodyType;//体型
 
+     @Column(name = "body_type_score")
+    private String bodyTypeScore;//体型成绩
+
+
     @Column(name = "pull_up")
     private Integer pullUp;//引体向上
+
+    @Column(name = "pull_up_Score")
+    private Integer pullUpScore;//引体向上成绩
+
+    private String hang;//曲臂悬垂
+
+    @Column(name = "hang_score")
+    private Integer hangScore;//曲臂悬垂成绩
+
+    @Column(name = "hang_mm")
+    private Integer hangmm;//曲臂悬垂分
+
+    @Column(name = "hang_ss")
+    private Integer hangss;//曲臂悬垂秒
+
 
     @Column(name = "push_up")
     private Integer pushUp;//俯卧撑
 
-    @Column(name = "snake_run")
-    private double snakeRun;//蛇形跑
+    @Column(name = "push_up_score")
+    private Integer pushUpScore;//俯卧撑成绩
 
-    @Column(name = "running")
-    private double running;//3公里
+    private String snakeRun;//蛇形跑
+
+    @Column(name = "snake_run_score")
+    private Integer snakeRunScore;//蛇形跑成绩
+
+    @Column(name = "snake_run_mm")
+    private Integer snakeRunScoremm;//蛇形跑秒
+    @Column(name = "snake_run_ms")
+    private Integer snakeRunScorems;//蛇形跑毫秒
+
+    private String running;//3公里
+
+    @Column(name = "running_score")
+    private Integer runningScore;//3公里成绩
+
+    @Column(name = "running_mm")
+    private Integer runningScoremm;//3公里分
+    @Column(name = "running_ss")
+    private Integer runningScoress;//3公里秒
 
     @Column(name = "sit_up")
     private Integer sitUp;//仰卧起坐
 
+
+    @Column(name = "sit_up_score")
+    private Integer situpScore;
+
+
     @Column(name = "total_score")
-    private double totalScore;//总分数
+    private Integer totalScore;//总分数
     @Column(name = "is_pass")
     private String isPass;//是否合格
-
 
     private Integer number;
 
@@ -90,12 +134,60 @@ public class SportsScore {
         this.bodyType = bodyType;
     }
 
+    public String getBodyTypeScore() {
+        return bodyTypeScore;
+    }
+
+    public void setBodyTypeScore(String bodyTypeScore) {
+        this.bodyTypeScore = bodyTypeScore;
+    }
+
     public Integer getPullUp() {
         return pullUp;
     }
 
     public void setPullUp(Integer pullUp) {
         this.pullUp = pullUp;
+    }
+
+    public Integer getPullUpScore() {
+        return pullUpScore;
+    }
+
+    public void setPullUpScore(Integer pullUpScore) {
+        this.pullUpScore = pullUpScore;
+    }
+
+    public String getHang() {
+        return hang;
+    }
+
+    public void setHang(String hang) {
+        this.hang = hang;
+    }
+
+    public Integer getHangScore() {
+        return hangScore;
+    }
+
+    public void setHangScore(Integer hangScore) {
+        this.hangScore = hangScore;
+    }
+
+    public Integer getHangmm() {
+        return hangmm;
+    }
+
+    public void setHangmm(Integer hangmm) {
+        this.hangmm = hangmm;
+    }
+
+    public Integer getHangss() {
+        return hangss;
+    }
+
+    public void setHangss(Integer hangss) {
+        this.hangss = hangss;
     }
 
     public Integer getPushUp() {
@@ -106,20 +198,76 @@ public class SportsScore {
         this.pushUp = pushUp;
     }
 
-    public double getSnakeRun() {
+    public Integer getPushUpScore() {
+        return pushUpScore;
+    }
+
+    public void setPushUpScore(Integer pushUpScore) {
+        this.pushUpScore = pushUpScore;
+    }
+
+    public String getSnakeRun() {
         return snakeRun;
     }
 
-    public void setSnakeRun(double snakeRun) {
+    public void setSnakeRun(String snakeRun) {
         this.snakeRun = snakeRun;
     }
 
-    public double getRunning() {
+    public Integer getSnakeRunScore() {
+        return snakeRunScore;
+    }
+
+    public void setSnakeRunScore(Integer snakeRunScore) {
+        this.snakeRunScore = snakeRunScore;
+    }
+
+    public Integer getSnakeRunScoremm() {
+        return snakeRunScoremm;
+    }
+
+    public void setSnakeRunScoremm(Integer snakeRunScoremm) {
+        this.snakeRunScoremm = snakeRunScoremm;
+    }
+
+    public Integer getSnakeRunScorems() {
+        return snakeRunScorems;
+    }
+
+    public void setSnakeRunScorems(Integer snakeRunScorems) {
+        this.snakeRunScorems = snakeRunScorems;
+    }
+
+    public String getRunning() {
         return running;
     }
 
-    public void setRunning(double running) {
+    public void setRunning(String running) {
         this.running = running;
+    }
+
+    public Integer getRunningScore() {
+        return runningScore;
+    }
+
+    public void setRunningScore(Integer runningScore) {
+        this.runningScore = runningScore;
+    }
+
+    public Integer getRunningScoremm() {
+        return runningScoremm;
+    }
+
+    public void setRunningScoremm(Integer runningScoremm) {
+        this.runningScoremm = runningScoremm;
+    }
+
+    public Integer getRunningScoress() {
+        return runningScoress;
+    }
+
+    public void setRunningScoress(Integer runningScoress) {
+        this.runningScoress = runningScoress;
     }
 
     public Integer getSitUp() {
@@ -130,11 +278,19 @@ public class SportsScore {
         this.sitUp = sitUp;
     }
 
-    public double getTotalScore() {
+    public Integer getSitupScore() {
+        return situpScore;
+    }
+
+    public void setSitupScore(Integer situpScore) {
+        this.situpScore = situpScore;
+    }
+
+    public Integer getTotalScore() {
         return totalScore;
     }
 
-    public void setTotalScore(double totalScore) {
+    public void setTotalScore(Integer totalScore) {
         this.totalScore = totalScore;
     }
 
