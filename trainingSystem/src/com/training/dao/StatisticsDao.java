@@ -1,5 +1,6 @@
 package com.training.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -57,4 +58,60 @@ public class StatisticsDao
 		}
 	}
 
+	/**
+	 * 计算时间段内单位的训练时间
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public float getHoursByMonth(Timestamp start,Timestamp end) {
+		String hql = "from TrainingPlan where  startTime >= :start and startTime <= :end  order by startTime asc";
+		Session session = sessionFactory.openSession();
+		Query query = session.createQuery(hql);
+		query.setParameter("start", start);
+		query.setParameter("end", end);
+		List<TrainingPlan> list = query.list();
+		session.close();
+		float hours=0;
+		for (TrainingPlan trainingPlan : list)
+		{
+			if(trainingPlan.getCompletion()!=null) {
+				hours=hours+trainingPlan.getClassHour();
+			}
+		}
+		return hours;
+	}
+	
+	/**
+	 * 获取个人单位时间内的训练时长
+	 * @param id
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public float getHoursByWeek(Integer id,Timestamp start,Timestamp end) {
+		String hql = "from TrainingPlan where  startTime >= :start and startTime <= :end  order by startTime asc";
+		Session session = sessionFactory.openSession();
+		Query query = session.createQuery(hql);
+		query.setParameter("start", start);
+		query.setParameter("end", end);
+		List<TrainingPlan> list = query.list();
+		session.close();
+		float hours=0;
+		for (TrainingPlan trainingPlan : list)
+		{
+			if(trainingPlan.getCompletion()!=null&&trainingPlan.getPersons()!=null) {
+				String personStr=trainingPlan.getPersons();
+				String[] persons=personStr.split(",");
+				for (String person : persons)
+				{
+					if(person.equals(id.toString())) {
+						hours=hours+trainingPlan.getClassHour();
+					}
+				}
+			}
+		}
+		return hours;
+	}
+	
 }

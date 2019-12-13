@@ -9,11 +9,6 @@
     <link type="text/css" href="../../resources/select2/css/select2.css"   rel="stylesheet">
 </head>
 <body>
-        <div id="selectPerson">
-                <select id="personSelect" data-placeholder="请选择人员" style="width:250px;">
-                        <option id=""></option>
-                </select>
-        </div>
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
     <div id="main"  style="width: 600px;height:400px;"></div>
 </body>

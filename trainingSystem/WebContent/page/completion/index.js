@@ -9,7 +9,7 @@ var yzjs;//一周结束时间
 $(function() {
 	getThisWeekDate();
 	var layer = layui.layer;
-
+	initForm();
 	//1.初始化Table
 	var oTable = new TableInit();
 	oTable.Init();
@@ -19,7 +19,15 @@ $(function() {
  * “完成情况”按钮的点击事件
  * 弹出layer
  */
-function editCompletion(row) {}
+function initForm() {
+	layui.use('form', function(){
+		  var form = layui.form;
+		  form.on('submit(formDemo)', function(data){
+			  toAjax();
+			  return false;
+		  });
+		});
+}
 /*
  * “导出文件”按钮点击事件
  */
@@ -192,6 +200,7 @@ function toAjax() {
         data : form,
         success:function(data){
 			if(data==200){
+				$('#table').bootstrapTable('refresh');
 				 layer.msg('更新成功！');
 				 layer.close(index);
 			}else{
